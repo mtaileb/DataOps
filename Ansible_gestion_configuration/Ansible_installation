@@ -1,0 +1,30 @@
+# Sur Ubuntu 20.04
+$ sudo apt-add-repository -y ppa:ansible/ansible
+$ sudo apt-get update
+$ sudo apt-get install -y ansible
+
+# Sur RHEL/CentOS 6:
+$ rpm -ivh http://dl.fedoraproject.org/pub/epel/6/x86_64/\
+epel-release-6-8.noarch.rpm
+# If you're on RHEL/CentOS 7:
+$ yum install epel-release
+
+# Sinon utiliser pip:
+# Vérifier si pip est déjà présent:
+which pip
+# Si besoin l'installer:
+sudo easy_install pip
+# Puis installer Ansible:
+$ sudo pip install ansible
+
+# Vérifier:
+$ ansible --version
+ansible [core 2.12.10]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/toto/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  ansible collection location = /home/toto/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible
+  python version = 3.8.10 (default, Nov 14 2022, 12:59:47) [GCC 9.4.0]
+  jinja version = 2.10.1
+  libyaml = True
