@@ -1,10 +1,10 @@
 resource "azurerm_network_interface" "nic" {
-  name                = "book-nic"
+  name                = "demo-terraform-nic"
   location            = "West Europe"
   resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
-    name                          = "bookipconfig"
+    name                          = "ipconfig"
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.pip.id
@@ -12,15 +12,15 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_public_ip" "pip" {
-  name                = var.ip-name
+  name                = "10-ip"
   location            = "West Europe"
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Dynamic"
-  domain_name_label   = "bookdevops"
+  domain_name_label   = "demoterraformm2i"
 }
 
 resource "azurerm_storage_account" "stor" {
-  name                     = "bookstor"
+  name                     = "stockagedemoterraform"
   location                 = "West Europe"
   resource_group_name      = azurerm_resource_group.rg.name
   account_tier             = "Standard"
@@ -28,7 +28,7 @@ resource "azurerm_storage_account" "stor" {
 }
 
 resource "azurerm_virtual_machine" "vm" {
-  name                  = "bookvm"
+  name                  = "ma-vm"
   location              = "West Europe"
   resource_group_name   = azurerm_resource_group.rg.name
   vm_size               = "Standard_DS1_v2"
@@ -42,16 +42,16 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   storage_os_disk {
-    name              = "book-osdisk"
+    name              = "mon-os-disque"
     managed_disk_type = "Standard_LRS"
     caching           = "ReadWrite"
     create_option     = "FromImage"
   }
 
   os_profile {
-    computer_name  = "VMBOOK"
-    admin_username = "admin"
-    admin_password = "book123*"
+    computer_name  = "VM"
+    admin_username = "toto"
+    admin_password = "toto123*"
   }
 
   os_profile_linux_config {

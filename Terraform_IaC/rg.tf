@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "rg" {
-  name     = "bookRg"
+  name     = "demoRg"
   location = "West Europe"
 
   tags = {
