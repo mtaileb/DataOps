@@ -1,0 +1,43 @@
+# Create a new Vagrantfile using the Tower base box from Ansible.
+$ vagrant init vagrant init tower ansible/tower
+# Build the Tower VM.
+$ vagrant up
+# Log into the VM (Tower will display connection information).
+$ vagrant ssh
+
+# Ouvrir l’URL fournie dans le message de bienvenue (e.g. https://10.42.0.42) et confirmer l’exception de sécurité pour le certificat d’Ansible Tower,
+# et se loguer avec les login/mdp fournis dans le message.
+
+# Nous allons utiliser un playbook déjà présent dans cette VM, pour cela changeons d'utilisateurs:
+$ sudo su - awx
+$ cd/var/lib/awx/projects
+$ mkdir ansible-for-devops && cd ansible-for-devops
+# Créons le fichier main.yml avec le contenu suivant:
+$ nano main.yml
+
+---
+- hosts: all
+gather_facts: no
+connection: local
+
+tasks:
+- name: Check the date on the server.
+command: date
+
+# Retournons maintenant au dashboard de Tower:
+1- Créons une nouvelle Organisation: Demo Tower,
+2- Ajoutons un nouvel utilisateur, John Doe, à l'Organisation, avec le username johndoe et le mot-de-passe johndoe1234,
+3- Créons une nouvelle Team, DevOps Engineers, dans la même Organisation,
+4- Dans la section Credentials de l'équipe, ajoutons les crédentiels SSH en sélectionnant le type de crédentiel 'Machine', le 'Name' à Vagrant, le Type 'Machine,' 'SSH Usrname' à 'vagrant', et 'SSH password' à 'vagrant' aussi,
+5- Dans la section Projects, ajouter un nouveau Projet, avec le 'Name' à 'Tower test', 'Organisation' à 'Demo Tower', 'SCM Type' à 'Manual', et 'Playbook Directory' à 'ansible-for-devops',
+6- Dans la section Inventories, ajouter un Inventory, avec le 'Name' à 'Tower Local', l'Organisation à 'Demo Tower',
+7- Une fois le nouvel Inventory enregistré, lui ajouer un Group avec 'Name' = localhost,
+8- Une fois le groupe enregistré, lui ajouter un Host avec 'Hostname' = 127.0.0.1
+Nous avons créé la structure nécessaire pour lancer des playbooks dans Ansible Tower!
+Pour ce faire, cliquons sur l'onglet 'Job Templates' et créons un nouveau Job Template avec la configuration suivante:
+• Name: Tower Test
+• Inventory: Tower Local
+• Project: Tower Test
+• Playbook: main.yml
+• Machine Credential: Vagrant
+Enregistrons ce nouveau Job Template et cliquons sur le bouton avec le petite fusée pour démarrer le Job! Vous serez redirigé vers une page montrant le statut du Job.
