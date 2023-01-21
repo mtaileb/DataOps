@@ -12,7 +12,7 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_public_ip" "pip" {
-  name                = "book-ip"
+  name                = var.ip-name
   location            = "West Europe"
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Dynamic"
@@ -20,7 +20,7 @@ resource "azurerm_public_ip" "pip" {
 }
 
 resource "azurerm_storage_account" "stor" {
-  name                     = "bookstorpackt123"
+  name                     = "bookstor"
   location                 = "West Europe"
   resource_group_name      = azurerm_resource_group.rg.name
   account_tier             = "Standard"
@@ -50,7 +50,7 @@ resource "azurerm_virtual_machine" "vm" {
 
   os_profile {
     computer_name  = "VMBOOK"
-    admin_username = "bookpackt"
+    admin_username = "admin"
     admin_password = "book123*"
   }
 
