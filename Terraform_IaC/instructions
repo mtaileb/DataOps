@@ -5,3 +5,5 @@ $ terraform init
 $ terrform plan
 
 $ terraform apply
+
+# Nous pouvons ensuite aller dans les ressources de l'abonnement utilisé pour voir les ressources créées.
