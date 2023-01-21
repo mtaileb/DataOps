@@ -1,0 +1,7 @@
+# Se connecter à Azure Cloud Shell, copier les fichiers de ce réprertoire dans un répertoire ('azure-demo' par exemple, et exécuter le code ci-dessous:
+
+$ terraform init
+
+$ terrform plan
+
+$ terraform apply
