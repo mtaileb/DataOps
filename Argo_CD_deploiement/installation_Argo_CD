@@ -16,3 +16,13 @@ $ rm argocd-linux-amd64
 
 # Récupérer le mot-de-passe admin:
 $ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+# Récupérer l'URL d'Argo CD Server <URL_ARGO_SERVER>:
+$ minikube service argocd-server -n argocd --url
+# Se loguer:
+$ argocd login <URL_ARGO_SERVER>
+
+# Déployer une première application
+$ argocd app create sample-app --repo https://github.com/mtaileb/DataOps --path . --dest-server https://kubernetes.default.svc --dest-namespace default
+# Output: application 'sample-app' created
+
