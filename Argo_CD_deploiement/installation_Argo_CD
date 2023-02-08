@@ -1,0 +1,15 @@
+Pour installer Argo CD dans Minikube, exécuter :
+$ kubectl create namespace argocd
+$ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/
+argo-cd/stable/manifests/install.yaml
+Dans un nouveau terminal, activons l’accès au load balancer pour rendre le service accessible sur le réseau :
+$ minikube tunnel
+La commande suivante ouvre l’accès au serveur de l’interface web argocd-server et fournit son URL :
+$ kubectl patch svc argocd-server -n argocd -p '{"spec": {"type":
+"LoadBalancer"}}'
+Pour récupérer l’URL du serveur de l’interface web :
+$ minikube service argocd-server -n argocd --url
+Pour installer Argo CD CLI :
+$ curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+$ sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+$ rm argocd-linux-amd64
