@@ -1,0 +1,19 @@
+Installation de Prometheus :
+- Aller sur https://prometheus.io/download/
+- Télécharger l’archive selon votre système,
+- Lancer les commandes suivantes :
+$ tar -xzf prometheus-*.linux-amd64.tar.gz
+$ cd prometheus-*.linux-amd64/
+Editer le fchier prometheus.yaml comme suit :
+global:
+  scrape_interval: 10s
+scrape_configs:
+ - job_name: prometheus
+   static_configs:
+    - targets:
+       - localhost:9090
+
+Lancer Prometheus:
+$ ./prometheus
+
+Accéder à Prometheus sur http://localhost:9090
