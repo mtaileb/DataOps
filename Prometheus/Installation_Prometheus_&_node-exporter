@@ -23,3 +23,20 @@ Après téléchargement, exécuter :
 $ tar -xzf node_exporter-*.linux-amd64.tar.gz
 $ cd node_exporter-*.linux-amd64/
 $ ./node_exporter
+
+node_exporter sera accessible sur localhost:9100.
+
+Pour que Premetheus surveille le Node exporter, nous devons mettre à jour prometheus.yml en y ajoutant:
+global:
+  scrape_interval: 10s
+scrape_configs:
+ - job_name: prometheus
+   static_configs:
+    - targets:
+       - localhost:9090
+ - job_name: node
+   static_configs:
+    - targets:
+       - localhost:9100
+       
+ Pour que Prometheus charge le nouveau YAML, arrêtons-le avec Ctrl-C et redémarrons-le.
