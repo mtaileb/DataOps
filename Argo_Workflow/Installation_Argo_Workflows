@@ -1,0 +1,14 @@
+Installation d’Argo Workflows :
+Exécuter les commandes ci-dessous (mettre la version la plus à jour, voir ici) :
+kubectl create namespace argo
+kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v<<ARGO_WORKFLOWS_VERSION>>/install.yaml
+On va aussi patcher le déploiement pour éviter l’étape d’authentification pour accéder au serveur :
+kubectl patch deployment \
+  argo-server \
+  --namespace argo \
+  --type='json' \
+  -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/args", "value": [  "server",  "--auth-mode=server"]}]'
+Ensuite on met en place le port-forwarding pour accéder au serveur de l’extérieur du cluster à partir de https://localhost:2746 :
+kubectl -n argo port-forward deployment/argo-server 2746:2746
+Testons l’installation avec ce simple workflow :
+argo submit -n argo --watch https://raw.githubusercontent.com/argoproj/argo-workflows/master/examples/hello-world.yaml
