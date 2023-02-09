@@ -17,3 +17,9 @@ Lancer Prometheus:
 $ ./prometheus
 
 Accéder à Prometheus sur http://localhost:9090
+
+Téléchargeons (toujours à partir de prometheus.io/download) et installons node-exporter, qui permet d’exposer les métrique de niveau kernel et machine des systèmes Linux.
+Après téléchargement, exécuter :
+$ tar -xzf node_exporter-*.linux-amd64.tar.gz
+$ cd node_exporter-*.linux-amd64/
+$ ./node_exporter
