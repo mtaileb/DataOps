@@ -4,6 +4,10 @@ kubectl create namespace argo
 Installons Brew qui va ensuite nous installer Argo :
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" 
 brew install argo
+
+On déploie Argo Workflows:
+kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.4.5/install.yaml
+
 On va aussi patcher le déploiement pour éviter l’étape d’authentification pour accéder au serveur :
 kubectl patch deployment \
   argo-server \
