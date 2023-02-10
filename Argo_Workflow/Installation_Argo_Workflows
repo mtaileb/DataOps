@@ -18,3 +18,8 @@ Ensuite on met en place le port-forwarding pour accéder au serveur de l’exté
 kubectl -n argo port-forward deployment/argo-server 2746:2746
 Testons l’installation avec ce simple workflow :
 argo submit -n argo --watch https://raw.githubusercontent.com/argoproj/argo-workflows/master/examples/hello-world.yaml
+
+Création d’un simple workflow :
+Lisez le contenu du fichier python-multi-step-workflow.yaml (qui définit et utilise des templates), puis soumettez-le à Argo Workflows.
+https://github.com/mtaileb/DataOps/blob/main/Argo_Workflow/python-multi-step-workflow.yaml
+Suivez son exécution sur l’UI.
