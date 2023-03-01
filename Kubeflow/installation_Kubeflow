@@ -27,3 +27,17 @@ rm "${KFCTL_FILE}"
 export PATH=$PATH:~/bin
 
 # Pour installer K8s, le mieux est de simplement installer Minikube
+
+# Ensuite, créer un environnement virtuel (recommandé), en commençant par installer Python 3 et/ou Virtualenv s'ils ne sont pas déjà installés:
+sudo apt update
+sudo apt install python3-virtualenv
+virtualenv kfvenv --python python3
+source kfvenv/bin/activate
+
+# Installons maintenant le SDK de Kubeflow Pipeline:
+URL=https://storage.googleapis.com/ml-pipeline/release/latest/kfp.tar.gz
+pip install "${URL}" --upgrade
+
+# En plus du SDK, téléchargeons des composants supplémentaires de Kubeflow à partir du Git de Kubeflow:
+git clone --single-branch --branch 0.3.0 https://github.com/kubeflow/pipelines.git
+
