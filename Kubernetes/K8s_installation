@@ -1,0 +1,52 @@
+MàJ du système :
+apt-get update -y
+Installation des dépendances :
+apt-get install curl wget apt-transport-https virtualbox virtualbox-ext-pack -y
+Installation de Docker :
+apt-get install docker.io -y
+Démarrage de Docker et activation au boot :
+systemctl start docker
+systemctl enable docker
+Test de Docker (output de type Docker version 19.03.8, build afacb8b7f0) :
+docker –version
+
+Installation de Minikube :
+wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+Copie du fichier dans le path système :
+cp minikube-linux-amd64 /usr/local/bin/minikube
+Permission d’exécuter le fichier:
+chmod 755 /usr/local/bin/minikube
+Test de Minikube (output de type minikube version: v1.16.0...)
+minikube version
+
+Installation de Kubernetes, en commençant par ajouter la clé GPG :
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+Ajout de repository kubectl:
+echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+Mettons à jour le repository et installons Kubectl:
+apt-get update -y
+apt-get install kubectl kubeadm kubectl -y
+
+Avant de démarrer Minikube, quitter le mode root :
+exit
+Démarrage de Minikube (output : minikube v1.16.0 on Ubuntu 20.04 (kvm/amd64)...) :
+minikube start
+Informations sur le cluster K8s Minikube (Kubernetes control plane is running at https://45.58.38.77:8443...) :
+kubectl cluster-info
+Informations sur la configuration :
+kubectl config view
+Voyons les nœuds en exécution :
+kubectl get nodes
+Le statut de Minikube :
+minikube status
+
+Listons tous les conteneurs (tous namespaces confondus) :
+kubectl get pods –all-namespaces
+Récupérons l’URL du dashboard K8s :
+minikube dashboard -–url
+Ensuite cliquer sur Ctrl+C pour récupérer la ligne de commande.
+Créer un proxy pour rendre le serveur du dashboard accessible :
+kubectl proxy --address='0.0.0.0' --disable-filter=true
+Ne reste qu’à se connecter au dashboard en utilisant l’URL retournée comme suit (remplacer l’adresse IP par l’adresse IP publique de la machine qui héberge Minikube) :
+http://192.168.1.10:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/
+
