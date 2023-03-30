@@ -1,0 +1,4 @@
+- Executer: !git clone https://github.com/kubeflow-kale/kale
+- Aller dans examples/serving/xgboost/iris.ipynb
+- Executer les requitements, puis redémarrer le kernel
+- Suivre le déploiement du modèle sur KFServing
