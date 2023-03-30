@@ -1,5 +1,9 @@
 - Aller dans kale/examples/openvaccines-kaggle-competition/open-vaccine.ipybn
 - Ouvrir le panneau de Kale et l'activer
+- Ajouter une cellule tout en bas contenant: print(validation_loss), puis cliquer sur le crayon tout à droite pour signaler à Kale qu'il s'agit d'une 'Pipeline Metrics' (la sélectionner dans le menu déroulant)
 - Activer Katib, puis cliquer sur 'Setup Katib job' pour vérifier les paramètres pré-remplis
 - Cliquer sur le bouton du bas 'Compile and run Katib job'
 - Suivre l'avancement de la compilation du pipeline, et cliquer sur 'View' lorsqu'rrive l'étape 'Running pipeline experiment'
+- Dans la fenetre qui s'ouvre, suivre l'avancement des trials (cela peut prendre plusieurs minutes)
+- Une fois le run terminé, aller dans l'onglet 'Trials' et visualiser (en jaune) le trial le plus performant selon notre critère, et cliquer sur l'icone complètement à droite 
+pour visualiser le graphe de runtine de ce trial, et cliquer sur chacune des étapes (blocs) pour voir ce qui s'est passé dans l'étape en question)
