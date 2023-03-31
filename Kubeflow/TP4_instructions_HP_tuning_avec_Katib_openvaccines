@@ -1,3 +1,4 @@
+- Faire: git clone https://github.com/kubeflow-kale/kale
 - Aller dans kale/examples/openvaccines-kaggle-competition/open-vaccine.ipybn
 - Ouvrir le panneau de Kale et l'activer
 - Ajouter une cellule tout en bas contenant: print(validation_loss), puis cliquer sur le crayon tout à droite pour signaler à Kale qu'il s'agit d'une 'Pipeline Metrics' (la sélectionner dans le menu déroulant)
