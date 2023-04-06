@@ -1,2 +1,2 @@
-resoure_group_name ="bookRg"
-application_name ="book"
+resoure_group_name ="monappRg"
+application_name ="monapp"
