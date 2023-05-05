@@ -1,0 +1,15 @@
+# Sur Ubuntu 20.04 ou 22.04:
+# Installer Virtualbox (la version 6.1 a été testée avec succès)
+# Installer Vagrant
+#  Ajouter ces étapes pour éviter une erreur d'intervalle d'adresse IP:
+$ sudo mkdir /etc/vbox/
+$ cd /etc/vbox
+$ sudo nano /etc/vbox/networks.conf
+# Ajouter ces lignes dans le nouveau fichier:
+* 10.0.0.0/8 192.168.0.0/16
+* 2001::/64
+
+# Puis lancer les commandes suivantes (après d'être assuré que le fichier Vagrantfile est bien présent dans ~:
+$ cd ~
+$ ls
+$ vagrant up
