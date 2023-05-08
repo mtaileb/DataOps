@@ -1,7 +1,7 @@
-Variable resourceGroupName {
-	Type= string
-	Default = "dev-ecommerce-rg"
-    Description = "This is used for naming the resource group related to ecommerce application in development environment"
+variable resourceGroupName {
+	type= string
+	default = "dev-ecommerce-rg"
+        description = "This is used for naming the resource group related to ecommerce application in development environment"
 }
 
 variable rgname {
