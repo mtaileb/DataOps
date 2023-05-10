@@ -1,0 +1,1 @@
+terraform apply -var='resource_group_name=provisionerexec' -var='resource_group_location=westus'
