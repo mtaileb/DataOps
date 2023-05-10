@@ -1,0 +1,1 @@
+terraform apply -var='storage_account_info={ "mapstoragename1":"westus","mapstoragename2": "eastus" }'
