@@ -1,0 +1,2 @@
+# La liste étant fournie à l'exécution, le nombre d'itérations de count sera égale au length de laliste fournie:
+terraform apply -var="resource_group_name=simpletfexample" -var="resource_group_location=westeurope" -var='storage_account_names=["tfliststorage1","tfliststorage2"]'
