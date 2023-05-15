@@ -1,5 +1,5 @@
 variable listofobjects {
-    type = list(object({
+    type = list(object){
         location = string
         age = number
     }
