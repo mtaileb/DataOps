@@ -1,2 +1,2 @@
 # Cette instruction crée une instance dans West US:
-terraform apply -var="resource_group_name=simpletfexample" -var="resource_group_location=westeurope" -var='storage_account_name=conditionaltfstorage' -var=storage_account_eastus=false
+terraform apply -var="resource_group_name=simpletfexample" -var="resource_group_location=westeurope" -var="storage_account_name=conditionaltfstorage" -var="storage_account_eastus=false"
