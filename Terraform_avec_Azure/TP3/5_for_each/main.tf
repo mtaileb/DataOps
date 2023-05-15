@@ -35,5 +35,5 @@ resource "azurerm_storage_account" "storage_account" {
 }
 
 output storage_account_location_eastus {
-    value = azurerm_storage_account.storage_account["mapstoragename1"].name
+    value = azurerm_storage_account.storage_account["mapstoragename2"].name
 }
