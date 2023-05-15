@@ -1,1 +1,3 @@
+terraform apply -var="resource_group_name=simpletfexample" -var="resource_group_location=westeurope" -var="storage_account_name=simpletfstorage" -var="nos_of_storage_accounts=3"
+
 terraform destroy -target azurerm_storage_account.storage_account[1] -var="resource_group_name=simpletfexample" -var="resource_group_location=westeurope" -var="storage_account_name=simpletfstorage" -var="nos_of_storage_accounts=3"
