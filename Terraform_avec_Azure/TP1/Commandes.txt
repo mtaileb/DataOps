@@ -8,6 +8,8 @@ terraform plan -var resource_group_name=simpleconfigrgname -var resource_locatio
 
 # Convertissons le tfplan en JSON lisible:
 terraform show -json ./simpleconfig.tfplan >> readablesimpleconfig.json
+# Afficher le JSON avec jq:
+jq < readablesimpleconfig.json
 
 terraform apply -var resource_group_name=simpleconfigrgname -var resource_location="westeurope" -var storage_account_name=simplestoreazure
 
