@@ -20,3 +20,6 @@ output storage_account_location_eastus {
     value = {for name, location in var.storage_account_info: lower(name) => upper(location)}
 }
 
+output storage_account_location_eastus2 {
+    value = [for name, location in var.storage_account_info: "${name}-${location}"]
+}
