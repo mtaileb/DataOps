@@ -1,1 +1,5 @@
-
+Travaillez en sous-groupe. Notez vos réponses dans un document (Powerpoint par exemple):
+Que fait le fichier main.tf dans le répertoire Terraform? Listez les actions une à une.
+Que fait le fichier iis.yml dans le répertoire Ansible? Listez les actions une à une.
+Que contient le fichier hosts? A quoi correspondent les adresses IP? Où peut-on aller les récupérer?
+Une fois que vous aurez répondu aux questions ci-dessus, déployer l'infrastructure et configurez-là avec Ansible.
