@@ -1,0 +1,27 @@
+# Ce qui suit se fait dans Azure Powershell (et non le Bash):
+md terraform
+cd terraform
+# Récupérer les fichiers de configuration Terraform:
+foreach ($file in @('main.tf', 'terraform.tf', 'variables.tf')) { $uri = "https://raw.githubusercontent.com/mtaileb/DataOps/main/Terraform_avec_Azure/Etude_de_cas/Terraform/$file" Invoke-WebRequest -Uri $uri -OutFile $file }
+
+# Récupérer l'adresse IP locale (celle de -var cloud_shell_source) et celle du cloud shell (celle de -var management_ip)avec:
+curl http://ifconfig.me
+
+terraform init
+
+# Lancer le apply avec les bonnes variables:
+terraform apply -var="location=eastus" -var="resource_group=mon_RG" -var="cloud_shell_source=51.144.40.94" -var="domain_name_prefix=mtaileb123" -var="management_ip=196.224.206.92" -auto-approve
+
+# Une fois l'infra créée, jouer le playbook Ansible:
+cd..
+md ansibleConfigs 
+cd ansibleConfigs 
+
+# Récupérer les fichiers hosts et iis.yml:
+foreach ($file in @('hosts', 'iis.yml')) { $uri = "https://raw.githubusercontent.com/mtaileb/DataOps/main/Terraform_avec_Azure/Etude_de_cas/Ansible/$file" Invoke-WebRequest -Uri $uri -OutFile $file }
+
+code hosts 
+
+code iis.yml 
+
+ansible-playbook iis.yml -i hosts
