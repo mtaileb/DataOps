@@ -1,8 +1,36 @@
+# Pré-requis et création de l'image personnalisée:
 - Télécharger et installer Azure CLI: https://learn.microsoft.com/en-us/cli/azure/install-azure-cli
 - Télécharger et installer Docker
 - Créer un compte sur Docker Hub
-- Créer un dossier en local, et y créer/copier le ficher Dockerfile suivant:
-FROM httpd:latest
-COPY index.html /usr/local/apache2/htdocs/
+- Explorer le contenu des fichers Dockerfile et index.html
+- Créer un dossier en local, et y copier le ficher Dockerfile et le fichier index.html
+- Démarrer Docker
+- Lancer (-t est pour 'tag', qui est ici 'v1'): docker build -t demodocker:v1 .
+- Vérifier la création de l'image avec: docker images
+- Lançons un container sur la base de cette image, avec une translation de port pour avoir accès au container sur le port 8080:
+docker run -d --name demoapp -p 8080:80 demodocker:v1
+- Affichons les containers avec:
+docker ps
+- Ouvrons le lien http://localhost:8080 pour tester le container en local ('Welcome to my new app')
 
-- 
+# Publication sur Docker Hub:
+- Mantenons nous allons publier cette image sur Docker Hub, et donc nous avons besoin de nous loguer dans Docker via le terminal (votre mot-de-passe vous sera demandé juste après):
+docker login -u <votre_login_dockerhub>
+- Retrouver l'ID de notre image créée avec:
+docker images
+- Maintenant on va taguer notre image avec:
+docker tag <image_ID> <dockerhub_login>/demodocker:v1
+- Et on fait le push pour télécharger l'image sur Docker Hub:
+docker push docker.io/<dockerhub_login>/demodocker:v1
+- Nota: il est possible de rendre une image provée dans Docker Hub (i.e. vous serez seul pouvoir y accéder) en allant dans 'Settings' -> 'Make private'
+
+# Publication de l'image sur un registre privé Azure Container Registry (ACR):
+- On va commencer par créer une ressource ACR:
+- Option 1: vua Azure CLI
+az group create --name RG-ACR --location eastus
+az acr create --resource-group RG-ACR --name acrdemo --sku Basic
+- Option 2: via PowerShell
+New-AzResourceGroup -Name RG-ACR -Location EastUS
+$registry = New-AzContainerRegistry -ResourceGroupName "RG-ARC" -Name "acrdemo" -EnableAdminUser -Sku Basic
+
+- Option 3: via Azure Portal
