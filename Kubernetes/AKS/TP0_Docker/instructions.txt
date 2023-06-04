@@ -12,6 +12,8 @@ docker run -d --name demoapp -p 8080:80 demodocker:v1
 - Affichons les containers avec:
 docker ps
 - Ouvrons le lien http://localhost:8080 pour tester le container en local ('Welcome to my new app')
+- Penser à arrêter le container avec:
+docker container stop <nom_ou_ID_du_container>
 
 # Publication sur Docker Hub:
 - Mantenons nous allons publier cette image sur Docker Hub, et donc nous avons besoin de nous loguer dans Docker via le terminal (votre mot-de-passe vous sera demandé juste après):
