@@ -1,0 +1,8 @@
+- Dans le menu de gauche, aller dans 'Services et entrées' (ou 'Services and ingresses' en anglais)
+- Dans le menu déroulant 'Créer', choisir 'Application Starter'
+- Ensuite, 'Créer une application web de base'
+- Cliquer sur 'Suivant'
+- Passer en revue le manifeste YAML
+- Cliquer sur 'Déployer'
+"L’application Azure Vote se compose de quatre ressources Kubernetes qui sont créées à l’intérieur d’un nouvel espace de noms."
+- Accéder à l'application pour l'utiliser
