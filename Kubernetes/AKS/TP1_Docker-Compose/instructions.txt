@@ -1,1 +1,4 @@
+- Passer en revue le fichier docker-compose, que fait-il?
+- L'exécuter avec:
+docker-compose up -d
 
