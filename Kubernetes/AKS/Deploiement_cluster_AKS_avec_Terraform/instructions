@@ -1,1 +1,42 @@
+- Créer un répertoire à part
+- Y-copier les fichiers .tf
+- Ensuite:
+terraform init -upgrade
+terraform plan -out main.tfplan
+terraform apply main.tfplan
+- Une fois le apply terminé, vérifions la création du groupe de ressources:
+resource_group_name=$(terraform output -raw resource_group_name)
+- Récupérons le nom du nouveau workspace de Log Analytics:
+az monitor log-analytics workspace list \
+  --resource-group $resource_group_name \
+  --query "[].{\"Workspace name\":name}" \
+  --output table
+ 
+- Récupérons le nom de la solution de Log Analytics:
+az monitor log-analytics solution list \
+ --resource-group $resource_group_name \
+ --query "value[*].{\"Solution name\":name}" \
+ --output table
+  
+- Affichons le nom du cluster K8s:
+az aks list \
+--resource-group $resource_group_name \
+--query "[].{\"K8s cluster name\":name}" \
+--output table
+  
+- Récupérons la configuration de K8s à partir du TFState de Terraform et mettons-le dans un fichier accessible à kubectl:
+echo "$(terraform output kube_config)" > ./azurek8s
+- Vérifions l'absence de caractère EOT dans le fichier (si on voit '<< EOT' au début et 'EOT' à la fin, il faudra les enlever en éditant le fichier):
+cat ./azurek8s
 
+- Spécifions la variable de configuration pour kubectl:
+export KUBECONFIG=./azurek8s
+
+- Vérifions la santé du cluster:
+kubectl get nodes
+
+- Enfin, pour supprimer les ressources du cluster:
+terraform plan -destroy -out main.destroy.tfplan
+- Pour supprimer le Service Principal:
+sp=$(terraform output -raw sp)
+az ad sp delete --id $sp
