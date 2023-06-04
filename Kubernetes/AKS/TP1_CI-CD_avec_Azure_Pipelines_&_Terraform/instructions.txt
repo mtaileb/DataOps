@@ -27,5 +27,4 @@ terraform apply -var "imageversion=$(Build.BuildNumber)"
 -var "dockerhub-username=$(dockerhub_Username)" --autoapprove
 
 - Cliquer plus bas sur 'Advanced', et dans 'Working directory' sélectionner le répertoire 'terraform-aci' dans votre arborescence GitHub
-
-- 
+- Ensuite aller dans l'onglet 'Variables', cliquer sur 'Add', 
