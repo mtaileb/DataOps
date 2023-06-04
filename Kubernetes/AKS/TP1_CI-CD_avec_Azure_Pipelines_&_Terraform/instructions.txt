@@ -1,0 +1,31 @@
+- Aller sur dev.azure.com
+- Aller dans Azure Pipelines
+- Créer un nouveau projet
+- Dans le menu de gauche, cliquer sur 'Pipelines'
+- Cliquer sur 'Créer un pipeline'
+- En-bas de la page, cliquer sur 'Use classic editor'
+- Cliquer sur GitHub (et non-pas Azure Repos Git)
+- Cliquer sur 'Autoriser OAuth' et suivre les étapes pour donner l'accès
+- Sélectionner votre répo GitHub dans le champ 'Repository'
+- Laisser la branche 'main' comme défaut
+- Cliquer sur 'Continuer'
+- Cliquer sur le lien 'Empty job' (en-haut)
+- Cliquer sur 'Get sources' et changer le menu 'Clean' à 'false'
+- Cliquer sur 'Agent job 1' et dans le moteur de recherche chercher 'push', sélectionner 'Docker' dans le résultat et cliquer sur 'Add' (il s'agit de la tâche du pipeline qui s'occupera du build et du push de l'image vers Docker Hub)
+- Dans la ligne 'Container registry' cliquer sur 'New' et mettre un nom de connection, l'ID de votre répo Docker, et votre mot-de-passe Docker Hub
+- Dans le champ 'Dockerfile', aller chercher dans votre arborescence GitHub le Dockerfile qu'on a précédemment utilisé
+- Cliquer sur 'Vérifier et sauvegarder'
+- Créons une nouvelles tâche du pipeline en cliquant à nouveau sur le signe + de 'Agent job 1' (à gauche)
+- Cherchons le terme 'bash' et cliquons sur 'Bash' dans les résultats, puis sur 'Add'
+- En cliquant sur cette nouvelle tâche, changeons son nom à 'Terraform execution', et dans le champ 'Script' copions ceci:
+export ARM_CLIENT_ID="$(ARM_CLIENT_ID)"
+export ARM_CLIENT_SECRET="$(ARM_CLIENT_SECRET)"
+export ARM_TENANT_ID="$(ARM_TENANT_ID)"
+export ARM_SUBSCRIPTION_ID="$(ARM_SUBSCRIPTION_ID)"
+terraform init -backend-config="backend.tfvars"
+terraform apply -var "imageversion=$(Build.BuildNumber)"
+-var "dockerhub-username=$(dockerhub_Username)" --autoapprove
+
+- Cliquer plus bas sur 'Advanced', et dans 'Working directory' sélectionner le répertoire 'terraform-aci' dans votre arborescence GitHub
+
+- 
