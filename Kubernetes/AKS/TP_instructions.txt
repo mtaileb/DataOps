@@ -1,0 +1,26 @@
+- Se connecter à Azure Portal
+- Lancer Kubernetes Services
+- Le configurer et le créer
+- Alternative 1 via le shell:
+#Create the Resource group
+az group create --name Rg-AKS --location westeurope
+#Create the AKS resource
+az aks create --resource-group Rg-AKS --name demoAKS
+--node-count 2 --generate-ssh-keys --enable-addons
+monitoring
+
+- Alternative 2 avec Terraform: voir fichier.
+- Ensuite, configurer kubeconfig pour AKS avec:
+az login // Si vous êtes en local
+az account set --subscription <subscription Id>
+az aks get-credentials --resource-group Rg-AKS --name
+demoAKS
+
+- Voilà, vous pouvez maintenant tester votre cluster avec:
+kubectl get deployments --all-namespaces=true
+kubectl get deployments --namespace <namespace-name>
+kubectl describe deployment <deployment-name> --namespace <namespace-name>
+# Obtenir les logs des pods avec un tag spécifique:
+kubectl logs -l <label-key>=<label-value>
+
+- Pour surveiller votre cluster de façon graphique, aller dans l'interface Azure Portal->Menu à gauche->Supervision(vers le bas)->Informations
