@@ -1,0 +1,8 @@
+- Télécharger et installer Azure CLI: https://learn.microsoft.com/en-us/cli/azure/install-azure-cli
+- Télécharger et installer Docker
+- Créer un compte sur Docker Hub
+- Créer un dossier en local, et y créer/copier le ficher Dockerfile suivant:
+FROM httpd:latest
+COPY index.html /usr/local/apache2/htdocs/
+
+- 
