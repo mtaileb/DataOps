@@ -13,8 +13,11 @@ kubectl apply -f myapp-service.yml
 - Lancer:
 kubectl get services
 - Maintenant exécuter la commande suivante:
- kubectl delete pod <ID_du_pod> && kubectl get pods -w
+ kubectl delete pod <ID_du_pod1> && kubectl get pods -w
 - Qu'a-t-elle fait? Que s'est-il passé?
+- Et si on exécute:
+kubectl delete pod <ID_du_pod1> <ID_du_pod2> && kubectl get pods -w
+- Que s'est-il passé?
 
 # Déploiement d'une application en CI-CD sur AKS avec Azure Pipelines:
 - Suivre les étapes de ce TP: https://www.azuredevopslabs.com/labs/vstsextend/kubernetes/
