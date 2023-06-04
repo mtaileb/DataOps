@@ -1,4 +1,17 @@
+# Docker Compose en local:
 - Passer en revue le fichier docker-compose, que fait-il?
 - L'exécuter avec:
 docker-compose up -d
-- 
+- Une fois les containers lancés, exécuter 'docker ps' pour les visualiser
+
+# Docker Compose sur ACI:
+- Créer un nouveu contexte Docker:
+docker context create aci demoaci
+- Vérifier la création du nouveau contexte avec:
+docker context ls
+- Sélectionner le nouveau contexte:
+docker context use demoaci
+- Puis exécuter:
+docker compose up
+- On peut visualiser les deux containers dans l'interface Azure Portal
+- En cliquant sur le FQDN de l'application, on pourra l'ouvrir dans le navigateur
