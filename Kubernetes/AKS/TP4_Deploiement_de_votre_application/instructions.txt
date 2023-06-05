@@ -19,6 +19,7 @@ kubectl get services
 kubectl delete pod <ID_du_pod1> <ID_du_pod2> && kubectl get pods -w
 - Que s'est-il passé?
 - Allez visualiser les métriques du cluster pour comprendre ce qui s'est passé.
+- Comment supprimer ce déploiement?
 
 # Déploiement d'une application en CI-CD sur AKS avec Azure Pipelines:
 - Suivre les étapes de ce TP: https://www.azuredevopslabs.com/labs/vstsextend/kubernetes/
