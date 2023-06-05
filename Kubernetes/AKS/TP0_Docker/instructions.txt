@@ -24,7 +24,7 @@ docker images
 docker tag <image_ID> <dockerhub_login>/demodocker:v1
 - Et on fait le push pour télécharger l'image sur Docker Hub:
 docker push docker.io/<dockerhub_login>/demodocker:v1
-- Nota: il est possible de rendre une image privée dans Docker Hub (i.e. vous serez seul pouvoir y accéder) en allant dans 'Settings' -> 'Make private'
+- Nota: il est possible de rendre une image privée dans Docker Hub (i.e. vous serez seul à pouvoir y accéder) en allant dans 'Settings' -> 'Make private'
 
 # Publication de l'image sur un registre privé Azure Container Registry (ACR):
 - On va commencer par créer une ressource ACR:
