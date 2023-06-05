@@ -6,7 +6,7 @@ docker-compose up -d
 
 # Docker Compose sur ACI:
 - Créer un nouveu contexte Docker:
-docker context create aci demoaci
+docker context create aci demoaci (dans Azure: docker context create demoaci)
 - Vérifier la création du nouveau contexte avec:
 docker context ls
 - Sélectionner le nouveau contexte:
