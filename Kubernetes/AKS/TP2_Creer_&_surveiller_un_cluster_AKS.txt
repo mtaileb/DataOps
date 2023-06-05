@@ -23,4 +23,4 @@ kubectl describe deployment <deployment-name> --namespace <namespace-name>
 # Obtenir les logs des pods avec un tag spécifique:
 kubectl logs -l <label-key>=<label-value>
 
-- Pour surveiller votre cluster de façon graphique, aller dans l'interface Azure Portal->Menu à gauche->Supervision(vers le bas)->Informations
+- Pour surveiller votre cluster de façon graphique, aller dans l'interface Azure Portal->Menu à gauche->Supervision(vers le bas)->Métriques
