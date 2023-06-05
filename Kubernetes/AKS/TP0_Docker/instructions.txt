@@ -1,7 +1,7 @@
 # Pré-requis et création de l'image personnalisée:
 - Télécharger et installer Azure CLI: https://learn.microsoft.com/en-us/cli/azure/install-azure-cli
 - Télécharger et installer Docker
-- Créer un compte sur Docker Hub
+- Créer un compte sur Docker Hub sur hub.docker.com
 - Explorer le contenu des fichers Dockerfile et index.html
 - Créer un dossier en local, et y copier le ficher Dockerfile et le fichier index.html
 - Démarrer Docker
