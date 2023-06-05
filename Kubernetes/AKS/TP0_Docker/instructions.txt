@@ -28,7 +28,7 @@ docker push docker.io/<dockerhub_login>/demodocker:v1
 
 # Publication de l'image sur un registre privé Azure Container Registry (ACR):
 - On va commencer par créer une ressource ACR:
-- Option 1: vua Azure CLI
+- Option 1: via Azure CLI
 az group create --name RG-ACR --location westeurope
 az acr create --resource-group RG-ACR --name acrdemo --sku Basic //Penser à choisir un nom unique au lieu de acrdemo
 - Option 2: via PowerShell
