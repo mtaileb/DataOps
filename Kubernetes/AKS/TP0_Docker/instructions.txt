@@ -16,7 +16,7 @@ docker ps
 docker container stop <nom_ou_ID_du_container>
 
 # Publication sur Docker Hub:
-- Mantenons nous allons publier cette image sur Docker Hub, et donc nous avons besoin de nous loguer dans Docker via le terminal (votre mot-de-passe vous sera demandé juste après):
+- Maintenant nous allons publier cette image sur Docker Hub, et donc nous avons besoin de nous loguer dans Docker via le terminal (votre mot-de-passe vous sera demandé juste après):
 docker login -u <votre_login_dockerhub>
 - Retrouver l'ID de notre image créée avec:
 docker images
