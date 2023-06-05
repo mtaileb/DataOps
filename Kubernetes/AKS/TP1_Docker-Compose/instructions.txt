@@ -13,5 +13,5 @@ docker context ls
 docker context use demoaci
 - Puis exécuter:
 docker compose up
-- On peut visualiser les deux containers dans l'interface Azure Portal
+- On peut visualiser les deux containers dans l'interface Azure Portal dans le menu à gauche -> Surveillance -> Métriques
 - En cliquant sur le FQDN de l'application, on pourra l'ouvrir dans le navigateur
