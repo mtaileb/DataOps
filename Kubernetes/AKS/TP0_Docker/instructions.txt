@@ -35,7 +35,7 @@ az acr create --resource-group RG-ACR --name acrdemo --sku Basic //Penser à cho
 New-AzResourceGroup -Name RG-ACR -Location EastUS
 $registry = New-AzContainerRegistry -ResourceGroupName "RG-ARC" -Name "acrdemo" -EnableAdminUser -Sku Basic
 
-- Option 3: via Azure Portal
+- Option 3: via Azure Portal (via l'interface graphique)
 
 - La commande suivante nous connecte à la ressource ACR qu'on a créé ; elle va aussi nous connecter au registre Docker pour charger l'image directement de là!
 az acr login --name acrdemo
