@@ -1,0 +1,69 @@
+mkdir TP1
+cd TP1
+touch file1
+ls
+ls -A
+git init
+ls -A
+ls -A .git
+nano .git/config
+git config --local user.name “<name>”
+git config --local user.email “<email>”
+nano .git/config
+git status
+echo mot1 > file1
+git status
+git add file1
+git status
+echo mot2 > file1
+git status
+echo mot3 > file1
+git status
+
+# Maintenant voyons ce que fait --amend:
+touch release1
+ls
+git add relsease1
+git commit -m "First release done"
+git log -n 2
+touch documentation.md
+git add documentation.md
+git commit --amend -m "First release done, with documentation"
+git log -n 2
+# Que s'est-il passé exactement après exécution de --amend?
+
+
+# Maintenant nous allons aborder git restore & git ignore:
+touch app.exe example.md featurex.app file
+git add .
+git status
+git restore --staged app.exe
+git status
+# Que remarquez-vous? Quel a été l'effet de git restore --staged <fichier>?
+
+echo *.exe > .gitignore
+nano .gitignore
+git status
+git add .
+git status
+# Quel a été l'effet du fichier .gitignore? Faites une vérification en le vidant à nouveau (avec nano) puis:
+git status
+git add .
+git status
+
+# Gitignore avancé: copier/coller le contenu suivant dans le fichier .gitignore:
+/*
+!/foo
+/foo/*
+!/foo/bar
+
+# Puis exécuter les commandes suivantes:
+touch 1 2 3 4
+mkdir -p foo/bar
+touch foo/5 foo/6 foo/7 foo/8
+touch foo/bar/9 foo/bar/10 foo/bar/11 foo/bar/12
+git add .
+git status
+# Quel a été l'effet du fichier .gitignore cette fois-ci?
+git commit -m "Ajout contenu foo/bar"
+git status
