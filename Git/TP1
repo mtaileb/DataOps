@@ -69,3 +69,30 @@ git commit -m "Ajout contenu foo/bar"
 git status
 
 # Note: pour ne pas appliquer le ignore au contenue d'un certain dossier (tous les fichiers .png), quel-que-soit l'emplacement en profondeur de ce dossier, utiliser: echo '!**/images/*.png' >> .gitignore
+
+# Maintenant voyons comment créer des tags, qui correspondent à des releases:
+git log
+# Copions les sha des commits pour les faires correspondre à leur tags:
+git tag v1.0 ec63494c4de4b6ce574e507401b3e23c69ecdf0d
+git tag v2.0 ba4fdb540cb66f1f53cc1c90f66f109a93d261d0
+git tag v3.0 df177cd0fc51ab010099507e091682c4a5d0b917
+# Vérifions:
+git log
+
+
+# Comment créer des nouvelles branches?
+# A partir du HEAD courant:
+git branch <new-branch>
+# A partir d'une branche spécifique:
+git branch <new-branch> <base-branch>
+# A partir d'un commit spécifique:
+git branch <new-branch> f71ac24d
+# A partir d'un tag spécifique:
+git branch <new-branch> v1.2
+# A partir d'une branche d'un repo distant:
+git branch --track <new-branch> origin/<base-branch>
+# Ou alors:
+git checkout --track origin/<base-branch>
+# Créer une branche dans un repo distant:
+$ git push -u origin <local-branch>
+
