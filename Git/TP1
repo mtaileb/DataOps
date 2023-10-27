@@ -67,3 +67,5 @@ git status
 # Quel a été l'effet du fichier .gitignore cette fois-ci?
 git commit -m "Ajout contenu foo/bar"
 git status
+
+# Note: pour ne pas appliquer le ignore au contenue d'un certain dossier (tous les fichiers .png), quel-que-soit l'emplacement en profondeur de ce dossier, utiliser: echo '!**/images/*.png' >> .gitignore
