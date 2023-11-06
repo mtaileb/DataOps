@@ -50,7 +50,7 @@ runcmd:
 az group create --name jenkins-get-started-rg --location eastus
 
     Run az vm create to create a virtual machine.
-az vm create --resource-group jenkins-get-started-rg --name jenkins-get-started-vm --image UbuntuLTS --admin-username "azureuser" --generate-ssh-keys --public-ip-sku Standard --custom-data cloud-init-jenkins.txt
+az vm create --resource-group jenkins-get-started-rg --name jenkins-get-started-vm --image Ubuntu2204 --admin-username "azureuser" --generate-ssh-keys --public-ip-sku Standard --custom-data cloud-init-jenkins.txt
 
     Run az vm list to verify the creation (and state) of the new virtual machine.
 az vm list -d -o table --query "[?name=='jenkins-get-started-vm']"
