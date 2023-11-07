@@ -1,1 +1,163 @@
+Tutorial: Deploy to Azure App Service with Jenkins and the Azure CLI
 
+Prerequisites
+    Jenkins - Install Jenkins on a Linux VM
+    Azure CLI: Install Azure CLI (version 2.0.67 or higher) on the Jenkins server. (voir support de          formation)
+
+Configure Jenkins
+
+The following steps show how to install the required Java JDK and Maven on the Jenkins controller:
+
+    Sign in to Jenkins controller using SSH.
+
+    Download and install the Azul Zulu build of OpenJDK for Azure from an apt-get repository:
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0xB1998361219BD9C9
+sudo apt-add-repository "deb http://repos.azul.com/azure-only/zulu/apt stable main"
+sudo apt-get -q update
+sudo apt-get -y install zulu-8-azure-jdk
+
+    Run the following command to install Maven:
+sudo apt-get install -y maven
+
+Add Azure service principal to a Jenkins credential
+
+The following steps show how to specify your Azure credential:
+
+    Make sure the Credentials plug-in is installed.
+
+    Within the Jenkins dashboard, select Credentials -> System ->.
+
+    Select Global credentials(unrestricted).
+
+    Select Add Credentials to add a Microsoft Azure service principal. Make sure that the credential       kind is Username with password and enter the following items:
+        Username: Service principal appId
+        Password: Service principal password
+        ID: Credential identifier (such as AzureServicePrincipal)
+
+  Create an Azure App Service for deploying the Java web app
+
+  Use az appservice plan create to create an Azure App Service plan with the FREE pricing tier:
+az appservice plan create --name <app_service_plan> --resource-group <resource_group> --sku FREE
+
+  Key points:
+    The appservice plan defines the physical resources used to host your apps.
+    All applications assigned to an appservice plan share these resources.
+    Appservice plans allow you to save cost when hosting multiple apps.
+
+  Create an Azure web app
+  Use az webapp create to create a web app definition in the myAppServicePlan App Service plan.
+az webapp create --name <app_name> --resource-group <resource_group> --plan <app_service_plan>
+
+  Key points:
+    The web app definition provides a URL to access your application with and configures several           options to deploy your code to Azure.
+    Substitute the <app_name> placeholder with a unique app name.
+    The app name is part of the default domain name for the web app. Therefore, the name needs to be       unique across all apps in Azure.
+    You can map a custom domain name entry to the web app before you expose it to your users.
+
+  Configure Java
+  Use az appservice web config update to set up the Java runtime configuration for the app:
+az webapp config set --name <app_name> --resource-group <resource_group> --java-version 1.8 --java-container Tomcat --java-container-version 8.0
+
+  Prepare a GitHub repository
+    Open the Simple Java Web App for Azure repo.
+    Select the Fork button to fork the repo to your own GitHub account.
+    Open the Jenkinsfile file by clicking on the file name.
+    Select the pencil icon to edit the file.
+    Update the subscription ID and tenant ID.
+
+withEnv(['AZURE_SUBSCRIPTION_ID=<subscription_id>',
+        'AZURE_TENANT_ID=<tenant_id>'])
+
+  Update the resource group and name of your web app on line 22 and 23 respectively.
+def resourceGroup = '<resource_group>'
+def webAppName = '<app_name>'
+
+  Update the credential ID in your Jenkins instance
+withCredentials([usernamePassword(credentialsId: '<service_princial>', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+
+  Create Jenkins pipeline
+
+  Do the following to create a Jenkins pipeline:
+
+    Open Jenkins in a web browser.
+
+    Select New Item.
+
+    Enter a name for the job.
+
+    Select Pipeline.
+
+    Select OK.
+
+    Select Pipeline.
+
+    For Definition, select Pipeline script from SCM.
+
+    For SCM, select Git.
+
+    Enter the GitHub URL for your forked repo: https:\<forked_repo\>.git
+
+    Select Save
+
+  Test your pipeline
+
+    Go to the pipeline you created
+
+    Select Build Now
+
+    After the build completes, select Console Output to see build details.
+
+  Verify your web app
+
+  Do the following to verify the WAR file is deployed successfully to your web app:
+
+    Browse to the following URL: http://&lt;app_name>.azurewebsites.net/api/calculator/ping
+
+    You should see text similar to the following:
+Welcome to Java Web App!!! This is updated!
+Today's date
+
+  Browse to the following URL (substitute <x> and <y> with two values to be summed):                   http://<app_name>.azurewebsites.net/api/calculator/add?x=<x>&y=<y>.
+
+  Deploy to Azure App Service on Linux
+
+  App Service can also host web apps natively on Linux for supported application stacks. It can also   run custom Linux containers (also known as Web App for Containers.)
+
+  You can modify the script to deploy to an Azure App Service on Linux. App Service on Linux           supports Docker. As such, you provide a Dockerfile that packages your web app with service runtime   into a Docker image. The plug-in builds the image, pushes it to a Docker registry, and deploys the   image to your web app.
+
+    Refer to Migrate custom software to Azure App Service using a custom container to create an          Azure App Service on Linux and an Azure Container Registry.
+az group create --name myResourceGroup2 --location westus2
+    az acr create --name myACRName --resource-group myResourceGroup2 --sku Basic --admin-enabled true
+    az appservice plan create --name myAppServicePlan --resource-group  myResourceGroup2 --is-linux
+    az webapp create --resource-group myResourceGroup2 --plan myAppServicePlan --name myApp --deployment-container-image-name myACRName.azurecr.io/calculator:latest
+
+  Install Docker on your Jenkins.
+  Make sure Docker Pipeline plug-in is installed.
+  In the same Simple Java Web App for Azure repo you forked, edit the Jenkinsfile2 file as follows:
+    Update the subscription ID and tenant ID.
+withEnv(['AZURE_SUBSCRIPTION_ID=<mySubscriptionId>',
+        'AZURE_TENANT_ID=<myTenantId>']) {
+
+  Update to the names of your resource group, web app, and ACR (replacing the placeholders with your   values).
+def webAppResourceGroup = '<resource_group>'
+def webAppName = '<app_name>'
+def acrName = '<registry>'
+
+  Update <azsrvprincipal\> to your credential ID
+withCredentials([usernamePassword(credentialsId: '<service_principal>', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+
+  Create a new Jenkins pipeline as you did when deploying to Azure web app in Windows using            Jenkinsfile2.
+  Run your new job.
+  To verify, in Azure CLI, run the following command:
+az acr repository list -n <myRegistry> -o json
+
+  You should see results similar to the following:
+[
+"calculator"
+]
+
+  Browse to http://<app_name>.azurewebsites.net/api/calculator/ping (replacing the placeholder). You   should see similar results to the following:
+Welcome to Java Web App!!! This is updated!
+Today's date
+
+  Browse to http://<app_name>.azurewebsites.net/api/calculator/add?x=<x>&y=<y> (replacing the          placeholders). The values you specify for x and y are summed and displayed.
