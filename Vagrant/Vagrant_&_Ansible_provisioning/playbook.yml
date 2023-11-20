@@ -1,8 +1,11 @@
----
-- hosts: all
-become: yes
-tasks:
-- name: Ensure NTP (for time synchronization) is installed.
-yum: name=ntp state=present
-- name: Ensure NTP is running.
-service: name=ntpd state=started enabled=yes
+---                                    # Marqueur du format YAML
+- hosts: all                     # Désigne les hôtes concernés, cf. /etc/ansible/hosts
+  become: yes                 # Demande à Ansible de devenir root pour exécuter les commandes
+  tasks:                            # Tâches qui seront exécutées
+  - name: Install a list of packages (suitable replacement for 2.11 loop deprecation warning)
+    yum:
+      name:
+        - nginx
+        - postgresql
+        - postgresql-server
+      state: present
