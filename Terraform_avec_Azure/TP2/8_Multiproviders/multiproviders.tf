@@ -7,16 +7,27 @@ terraform {
         aws = {
             source  = "hashicorp/aws"
             version = "~> 4.16"
+        }    
+        google = {
+            source = "hashicorp/google"
+            version = "4.51.0"
         }
     }
+}
+
+provider azurerm {
+  features {}
 }
 
 provider "aws" {
   region  = "us-west-2"
 }
 
-provider azurerm {
-  features {}
+provider "google" {
+  credentials = file("<NAME>.json")
+  project = "<PROJECT_ID>"
+  region  = "us-central1"
+  zone    = "us-central1-c"
 }
 
 
