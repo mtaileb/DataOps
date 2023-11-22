@@ -22,8 +22,9 @@ git status
 
 # Maintenant voyons ce que fait --amend:
 touch release1
-ls
+git status
 git add release1
+git status
 git commit -m "First release done"
 git log -n 2
 touch documentation.md
@@ -66,7 +67,6 @@ git add .
 git status
 # Quel a été l'effet du fichier .gitignore cette fois-ci?
 git commit -m "Ajout contenu foo/bar"
-git status
 
 # Note: pour ne pas appliquer le ignore au contenue d'un certain dossier (tous les fichiers .png), quel-que-soit l'emplacement en profondeur de ce dossier, utiliser: echo '!**/images/*.png' >> .gitignore
 
