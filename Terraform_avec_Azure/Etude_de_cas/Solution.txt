@@ -20,6 +20,7 @@ cd ansibleConfigs
 # Récupérer les fichiers hosts et iis.yml:
 foreach ($file in @('hosts', 'iis.yml')) { $uri = "https://raw.githubusercontent.com/mtaileb/DataOps/main/Terraform_avec_Azure/Etude_de_cas/Ansible/$file" Invoke-WebRequest -Uri $uri -OutFile $file }
 
+# Replacer les adresses IP des VM par les bonnes:
 code hosts 
 
 code iis.yml 
