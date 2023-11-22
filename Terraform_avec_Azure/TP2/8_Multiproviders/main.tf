@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "aws_instance" "app_server" {
-  ami           = "ami-ami-823686f5"
+  ami           = "ami-823686f5"
   instance_type = "t2.micro"
 }
 
