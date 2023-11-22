@@ -23,7 +23,7 @@ git status
 # Maintenant voyons ce que fait --amend:
 touch release1
 ls
-git add relsease1
+git add release1
 git commit -m "First release done"
 git log -n 2
 touch documentation.md
