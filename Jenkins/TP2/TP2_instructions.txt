@@ -68,14 +68,14 @@ az webapp config set --name <app_name> --resource-group <resource_group> --java-
 withEnv(['AZURE_SUBSCRIPTION_ID=<subscription_id>',
         'AZURE_TENANT_ID=<tenant_id>'])
 
-  Line 17: change repo from adoptopenjdk/openjdk17:latest (which is now obsolete) to docker pull eclipse-temurin:8-jdk-ubi9-minimal
+  Line 17: change repo from adoptopenjdk/openjdk17:latest (which is now obsolete) to docker pull eclipse-temurin:latest
 
   Update the resource group and name of your web app on line 22 and 23 respectively.
 def resourceGroup = '<resource_group>'
 def webAppName = '<app_name>'
 
   Update the credential ID in your Jenkins instance
-withCredentials([usernamePassword(credentialsId: '<service_princial>', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+withCredentials([usernamePassword(credentialsId: '<service_principal>', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
 
   Create Jenkins pipeline
 
