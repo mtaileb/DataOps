@@ -60,7 +60,7 @@ az webapp config set --name <app_name> --resource-group <resource_group> --java-
 
   Prepare a GitHub repository
     Open the Simple Java Web App for Azure repo.
-    Select the Fork button to fork the repo to your own GitHub account.
+    Select the Fork button to fork the repo https://github.com/azure-devops/javawebappsample to your own GitHub account.
     Open the Jenkinsfile file by clicking on the file name.
     Select the pencil icon to edit the file.
     Update the subscription ID and tenant ID.
