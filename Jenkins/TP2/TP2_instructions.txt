@@ -26,18 +26,15 @@ The following steps show how to specify your Azure credential:
     Make sure the Credentials plug-in is installed (voir support page 244: Jenkins -> Tableau de bord -> Administrer Jenkins -> Plugins,
     puis sélectionner le plugin Azure Credentials, et 'Installer'.
 
-    Within the Jenkins dashboard, select Credentials -> System ->.
-
-    Select Global credentials(unrestricted).
-
-    Select Add Credentials to add a Microsoft Azure service principal. Make sure that the credential       kind is Username with password and enter the following items:
+    Within the Jenkins dashboard, select Jenkins -> Tableau de bord -> Administrer Jenkins -> Credentials -> System -> Select Global credentials(unrestricted).
+    Select Add Credentials to add a Microsoft Azure service principal. Make sure that the credential kind is Username with password and enter the following items:
         Username: Service principal appId
         Password: Service principal password
         ID: Credential identifier (such as AzureServicePrincipal)
 
-  Create an Azure App Service for deploying the Java web app
+  ___Create an Azure App Service for deploying the Java web app___
 
-  Use az appservice plan create to create an Azure App Service plan with the FREE pricing tier:
+  # Use az appservice plan create to create an Azure App Service plan with the FREE pricing tier:
 az appservice plan create --name <app_service_plan> --resource-group <resource_group> --sku FREE
 
   Key points:
@@ -46,7 +43,7 @@ az appservice plan create --name <app_service_plan> --resource-group <resource_g
     Appservice plans allow you to save cost when hosting multiple apps.
 
   Create an Azure web app
-  Use az webapp create to create a web app definition in the myAppServicePlan App Service plan.
+  # Use az webapp create to create a web app definition in the myAppServicePlan App Service plan.
 az webapp create --name <app_name> --resource-group <resource_group> --plan <app_service_plan>
 
   Key points:
@@ -56,7 +53,7 @@ az webapp create --name <app_name> --resource-group <resource_group> --plan <app
     You can map a custom domain name entry to the web app before you expose it to your users.
 
   Configure Java
-  Use az appservice web config update to set up the Java runtime configuration for the app:
+  # Use az appservice web config update to set up the Java runtime configuration for the app:
 az webapp config set --name <app_name> --resource-group <resource_group> --java-version 1.8 --java-container Tomcat --java-container-version 8.0
 
   Prepare a GitHub repository
@@ -68,8 +65,6 @@ az webapp config set --name <app_name> --resource-group <resource_group> --java-
 
 withEnv(['AZURE_SUBSCRIPTION_ID=<subscription_id>',
         'AZURE_TENANT_ID=<tenant_id>'])
-
-  Line 17: change repo from adoptopenjdk/openjdk17:latest (which is now obsolete) to docker pull eclipse-temurin:latest
 
   Update the resource group and name of your web app on line 22 and 23 respectively.
 def resourceGroup = '<resource_group>'
@@ -122,7 +117,9 @@ Today's date
 
   Browse to the following URL (substitute <x> and <y> with two values to be summed):                   http://<app_name>.azurewebsites.net/api/calculator/add?x=<x>&y=<y>.
 
-  Deploy to Azure App Service on Linux
+
+
+  ___Deploy to Azure App Service on Linux___
 
   App Service can also host web apps natively on Linux for supported application stacks. It can also   run custom Linux containers (also known as Web App for Containers.)
 
@@ -149,7 +146,7 @@ def acrName = '<registry>'
   Update <azsrvprincipal\> to your credential ID
 withCredentials([usernamePassword(credentialsId: '<service_principal>', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
 
-  Create a new Jenkins pipeline as you did when deploying to Azure web app in Windows using            Jenkinsfile2.
+  Create a new Jenkins pipeline as you did when deploying to Azure web app in Windows using Jenkinsfile2.
   Run your new job.
   To verify, in Azure CLI, run the following command:
 az acr repository list -n <myRegistry> -o json
