@@ -23,7 +23,8 @@ Add Azure service principal to a Jenkins credential
 
 The following steps show how to specify your Azure credential:
 
-    Make sure the Credentials plug-in is installed.
+    Make sure the Credentials plug-in is installed (voir support page 244: Jenkins -> Tableau de bord -> Administrer Jenkins -> Plugins,
+    puis sélectionner le plugin Azure Credentials, et 'Installer'.
 
     Within the Jenkins dashboard, select Credentials -> System ->.
 
