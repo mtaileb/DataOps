@@ -2,7 +2,7 @@ Tutorial: Deploy to Azure App Service with Jenkins and the Azure CLI
 
 Prerequisites
     Jenkins - Install Jenkins on a Linux VM
-    Azure CLI: Install Azure CLI (version 2.0.67 or higher) on the Jenkins server. (voir support de          formation)
+    Azure CLI: Install Azure CLI (version 2.0.67 or higher) on the Jenkins server. (voir support de formation)
 
 Configure Jenkins
 
