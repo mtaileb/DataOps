@@ -27,70 +27,8 @@ resource "azurerm_availability_set" "monolith-as" {
   resource_group_name = azurerm_resource_group.monolithRG.name
 }
 
-## Create an Azure NSG to protect the infrastructure called nsg.
-resource "azurerm_network_security_group" "monolithnsg" {
-  name                = "nsg"
-  location            = azurerm_resource_group.monolithRG.location
-  resource_group_name = azurerm_resource_group.monolithRG.name
-  
-  ## Create a rule to allow Ansible to connect to each VM from the Azure Cloud Shell
-  ## source_address_prefix will be the IP Azure Cloud Shell is coming from
-  ## You'll pass the value of the variable to the plan when invoking it.
-  security_rule {
-    name                       = "allowWinRm"
-    priority                   = 101
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "5986"
-    source_address_prefix      = var.cloud_shell_source
-    destination_address_prefix = "*"
-  }
-  
-  ## Create a rule to allow your local machine with Visual Studio installed to connect to
-  ## the web management service and Web Deploy to deploy a web app. This locks down Web Deploy
-  ## to your local public IP address.
-  ## You'll pass the value of the variable to the plan when invoking it.
-  security_rule {
-    name                       = "allowWebDeploy"
-    priority                   = 102
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "8172"
-    source_address_prefix      = var.management_ip
-    destination_address_prefix = "*"
-  }
-  
-  ## Create a rule to allow web clients to connect to the web app
-  security_rule {
-    name                       = "allowPublicWeb"
-    priority                   = 103
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "80"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
-  
-  ## not required. Only needed if you need to RDP to the VMs to troubleshoot
-  security_rule {
-    name                       = "allowRDP"
-    priority                   = 104
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "3389"
-    source_address_prefix      = var.management_ip
-    destination_address_prefix = "*"
-  }
-}
 
+  
 ## Create a simple vNet
 resource "azurerm_virtual_network" "main" {
   name                = "monolith-network"
@@ -153,12 +91,6 @@ resource "azurerm_network_interface" "main" {
   ]
 }
 
-## Apply the NSG to each of the VMs' NICs
-resource "azurerm_network_interface_security_group_association" "nsg" {
-  count                     = 2
-  network_interface_id      = azurerm_network_interface.main[count.index].id
-  network_security_group_id = azurerm_network_security_group.monolithnsg.id
-}
 
 ## Create the load balancer with a frontend configuration using the public
 ## IP address created earlier.
