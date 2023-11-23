@@ -67,7 +67,7 @@ az vm show --resource-group jenkins-get-started-rg --name jenkins-get-started-vm
    >>> The --query parameter limits the output to the public IP addresses for the virtual machine.
 
    >>> Using the IP address retrieved in the previous step, SSH into the virtual machine. You'll need to      confirm the connection request.
-   >>> ssh azureuser@<ip_address>
+   ssh azureuser@<ip_address>
 
    >>> Key points:
    >>> Upon successful connection, the Cloud Shell prompt includes the user name and virtual machine          name: azureuser@jenkins-get-started-vm.
