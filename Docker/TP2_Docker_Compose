@@ -1,0 +1,17 @@
+# CREATION DE L'APPLICATION DANS DOCKER COMPOSE:
+# /!\ LANCER UNE VM AVEC DOCKER POUR LES COMMANDES SUIVANTES.
+# On va d'abord créer notre application avec Docker et Docker Compose pour générer les image qu'on va plus tard déployer sur AKS:
+git clone https://github.com/Azure-Samples/aks-store-demo.git
+cd aks-store-demo
+# Parcourez (en l'ouvrant avec cat) le fichier Docker Compose docker-compose-quickstart.yml pour voir ce que contient l'application:
+cat docker-compose-quickstart.yml
+# Création de l'image du conteneur, téléchargement de l'image Redis, et démarrage de l'application avec Compose:
+docker compose -f docker-compose-quickstart.yml up -d
+# Vérification de la présence des images:
+docker images
+# Visualisation des conteneurs en cours d'exécution:
+docker ps
+(# POUR INFO, NE PAS EXECUTER MAINTENANT: pour arrêter les conteneurs: docker compose down)
+(# A noter qu'il est possible de tester l'application sur un environnement LOCAL en la lançant avec Docker Compose et en se connectant à http://localhost:8080)
+
+# /!\ Ne pas supprimer cette VM car elle sera réutiliser pour le TP sur AKS!
