@@ -1,5 +1,5 @@
 # CREATION DE L'APPLICATION DANS DOCKER COMPOSE:
-# /!\ LANCER UNE VM AVEC DOCKER POUR LES COMMANDES SUIVANTES.
+# /!\ LANCER UNE VM LINUX AVEC DOCKER POUR LES COMMANDES SUIVANTES.
 # On va d'abord créer notre application avec Docker et Docker Compose pour générer les image qu'on va plus tard déployer sur AKS:
 git clone https://github.com/Azure-Samples/aks-store-demo.git
 cd aks-store-demo
@@ -12,6 +12,7 @@ docker images
 # Visualisation des conteneurs en cours d'exécution:
 docker ps
 (# POUR INFO, NE PAS EXECUTER MAINTENANT: pour arrêter les conteneurs: docker compose down)
-(# A noter qu'il est possible de tester l'application sur un environnement LOCAL en la lançant avec Docker Compose et en se connectant à http://localhost:8080)
+# A noter qu'il est possible de tester l'application sur un environnement LOCAL en la lançant avec Docker Compose et en se connectant à http://localhost:8080, ou alors:
+curl http://localhost:8080
 
-# /!\ Ne pas supprimer cette VM car elle sera réutiliser pour le TP sur AKS!
+# /!\ Ne pas supprimer cette VM car elle sera réutilisée pour le TP Kubernetes sur AKS!
