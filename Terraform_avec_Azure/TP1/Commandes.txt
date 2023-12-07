@@ -11,7 +11,7 @@ terraform show -json ./simpleconfig.tfplan >> readablesimpleconfig.json
 # Afficher le JSON avec jq:
 jq < readablesimpleconfig.json
 
-terraform apply -var resource_group_name=simpleconfigrgname -var resource_location="westeurope" -var storage_account_name=simplestoreazure
+terraform apply -var resource_group_name=simpleconfigrgname -var resource_location="westeurope" -var storage_account_name=simplestoreazure -auto-approve
 
 # Nota: on aurait pu exécuter le apply à partir du tfplan existant avec la commande:
 terraform apply ./simpleconfig.tfplan
