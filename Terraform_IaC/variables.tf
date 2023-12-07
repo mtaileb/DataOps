@@ -10,7 +10,3 @@ variable "location" {
 variable "application_name" {
   description = "Name of the application"
 }
-
-variable "prefix" {
-  description = "Name of the prefix"
-}
