@@ -1,0 +1,32 @@
+# Dans un bash Linux:
+python3 --version
+mkdir ~/dbt_demo
+cd ~/dbt_demo
+# Si Windows:
+mkdir %USERPROFILE%\dbt_demo
+cd %USERPROFILE%\dbt_demo
+
+# Créer un fichier nommé Pipfile avec le contenu suivant (mettre la version Python affichée plus haut en output):
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+[packages]
+dbt-databricks = "*"
+[requires]
+python_version = "3.8.10"
+
+
+#Installer pipenv si besoin:
+sudo apt install pipenv
+# Créer un environnement virtuel Python:
+pipenv --python 3.8.10
+# Installer DBT et l'adapteur Databricks:
+pipenv install
+# Activer l'environnement virtuel:
+pipenv shell
+# Vérifier que l'environnement virtuel utilise bien la bonne version de Python:
+python --version
+# Idem pour DBT et l'adapteur Databricks:
+dbt --version
+
