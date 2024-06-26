@@ -77,6 +77,9 @@ with DAG('example_dag', default_args=default_args, schedule_interval='@daily') a
 
     hello_task >> create_table
 
+# Exécuter le fichier docker-ompose.yml:
+docker-compose up -d
+
 # Accéder à l'Interface Web d'Airflow : Ouvrez votre navigateur et accédez à http://localhost:8080 pour voir l'interface Airflow
 # Activer et Exécuter le DAG :
 #    Connectez-vous à l'interface Airflow.
