@@ -40,7 +40,7 @@ volumes:
 # Créer un répertoire dags et le fichier example_dag.py:
 mkdir dags
 nano dags/example_dag.py
-# Mettre dedans le cntenu suivant:
+# Mettre dedans le contenu suivant:
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.providers.postgres.operators.postgres import PostgresOperator
