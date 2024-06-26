@@ -1,0 +1,99 @@
+mkdir dataops-docker-tp
+cd dataops-docker-tp
+
+# Créer le fichier docker-compose.yml:
+version: '2'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  airflow:
+    image: puckel/docker-airflow:1.10.9
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      LOAD_EX: "n"
+      EXECUTOR: "Local"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "mydatabase"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./plugins:/usr/local/airflow/plugins
+
+volumes:
+  pgdata:
+
+# Créer un répertoire dags:
+mkdir dags
+# Mettre dedans le fichiers suivant:
+# dags/example_dag.py
+from airflow import DAG
+from airflow.operators.python_operator import PythonOperator
+from airflow.providers.postgres.operators.postgres import PostgresOperator
+from datetime import datetime
+
+def print_hello():
+    return 'Hello world!'
+
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'start_date': datetime(2021, 1, 1),
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1
+}
+
+with DAG('example_dag', default_args=default_args, schedule_interval='@daily') as dag:
+    hello_task = PythonOperator(
+        task_id='hello_task',
+        python_callable=print_hello
+    )
+
+    create_table = PostgresOperator(
+        task_id='create_table',
+        postgres_conn_id='postgres_default',
+        sql='''
+        CREATE TABLE IF NOT EXISTS test (
+            id SERIAL PRIMARY KEY,
+            value VARCHAR(50)
+        );
+        '''
+    )
+
+    hello_task >> create_table
+
+# Accéder à l'Interface Web d'Airflow : Ouvrez votre navigateur et accédez à http://localhost:8080 pour voir l'interface Airflow
+# Activer et Exécuter le DAG :
+#    Connectez-vous à l'interface Airflow.
+#    Activez le DAG example_dag.
+#    Exécutez le DAG manuellement ou attendez qu'il s'exécute selon la planification.
+
+# Voir le conteneurs:
+docker-compose ps
+
+# Accédez au conteneur PostgreSQL (remplacez <postgres_container_id> par l'ID ou le nom du conteneur PostgreSQL. Vous pouvez obtenir l'ID du conteneur en exécutant docker ps):
+docker exec -it <postgres_container_id> psql -U user -d mydatabase
+
+# Dans l'invite de commande psql, exécutez la commande SQL suivante pour vérifier que la table test a été créée :
+\dt
+
+# Exécutez une requête pour vérifier le contenu de la table (elle peut être vide si aucun enregistrement n'a été inséré) :
+SELECT * FROM test;
+
+
+
