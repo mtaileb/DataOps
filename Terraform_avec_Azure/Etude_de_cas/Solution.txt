@@ -2,7 +2,14 @@
 md terraform
 cd terraform
 # Récupérer les fichiers de configuration Terraform:
-foreach ($file in @('main.tf', 'terraform.tf', 'variables.tf')) { $uri = "https://raw.githubusercontent.com/mtaileb/DataOps/main/Terraform_avec_Azure/Etude_de_cas/Terraform/$file" Invoke-WebRequest -Uri $uri -OutFile $file }
+$files = @('main.tf', 'terraform.tf', 'variables.tf')
+$baseUri = "https://raw.githubusercontent.com/mtaileb/DataOps/main/Terraform_avec_Azure/Etude_de_cas/Terraform/"
+
+$files | ForEach-Object {
+    $uri = "$baseUri$_"
+    Invoke-WebRequest -Uri $uri -OutFile $_
+}
+
 
 # Récupérer l'adresse IP locale (celle de -var cloud_shell_source) et celle du cloud shell (celle de -var management_ip, qui est l'IP de la machine locale à partir de laquelle on va faire le déploiement de l'appli web avec Visual Studio) avec:
 curl http://ifconfig.me
