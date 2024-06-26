@@ -37,10 +37,10 @@ services:
 volumes:
   pgdata:
 
-# Créer un répertoire dags:
+# Créer un répertoire dags et le fichier example_dag.py:
 mkdir dags
 nano dags/example_dag.py
-# Mettre dedans le fichiers suivant:
+# Mettre dedans le cntenu suivant:
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.providers.postgres.operators.postgres import PostgresOperator
