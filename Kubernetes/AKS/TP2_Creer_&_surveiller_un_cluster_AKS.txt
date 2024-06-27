@@ -5,7 +5,7 @@
 #Create the Resource group
 az group create --name Rg-AKS --location westeurope
 #Create the AKS resource
-az aks create --resource-group Rg-AKS --name demoAKS --node-count 2 --generate-ssh-keys --enable-addons monitoring
+az aks create --resource-group Rg-AKS --name demoAKS --node-count 2 --generate-ssh-keys --enable-addons monitoring  --location uksouth
 
 - Alternative 2 avec Terraform: voir fichier.
 - Ensuite, configurer kubeconfig pour AKS avec:
