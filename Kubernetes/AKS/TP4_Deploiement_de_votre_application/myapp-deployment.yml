@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: demok8s
-        image: mtaileb/demodocker:latest
+        image: mtaileb/demodocker:v1
         ports:
         - containerPort: 80
