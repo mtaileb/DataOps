@@ -1,0 +1,123 @@
+az group create --name MyResourceGroup --location eastus
+az aks create --resource-group MyResourceGroup --name MyAKSCluster --node-count 3 --enable-addons monitoring --generate-ssh-keys
+az aks get-credentials --resource-group MyResourceGroup --name MyAKSCluster
+kubectl create namespace spark
+
+# Créer le fichier spark-cluster.yaml avec le contenu:
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-master
+  namespace: spark
+  labels:
+    app: spark
+    component: master
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 7077
+      name: spark
+    - port: 8080
+      name: webui
+  selector:
+    app: spark
+    component: master
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-master
+  namespace: spark
+  labels:
+    app: spark
+    component: master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark
+      component: master
+  template:
+    metadata:
+      labels:
+        app: spark
+        component: master
+    spec:
+      containers:
+        - name: spark-master
+          image: bitnami/spark:latest
+          env:
+            - name: SPARK_MODE
+              value: "master"
+          ports:
+            - containerPort: 7077
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-worker
+  namespace: spark
+  labels:
+    app: spark
+    component: worker
+spec:
+  ports:
+    - port: 8081
+      name: webui
+  selector:
+    app: spark
+    component: worker
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-worker
+  namespace: spark
+  labels:
+    app: spark
+    component: worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spark
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: spark
+        component: worker
+    spec:
+      containers:
+        - name: spark-worker
+          image: bitnami/spark:latest
+          env:
+            - name: SPARK_MODE
+              value: "worker"
+            - name: SPARK_MASTER_URL
+              value: "spark://spark-master:7077"
+          ports:
+            - containerPort: 8081
+# FIN
+
+kubectl apply -f spark-cluster.yaml
+kubectl get pods -n spark
+# Récupérer l'adresse IP externe pour se connecter à l'UI:
+kubectl get service spark-master -n spark
+
+# Soumettre un job sur le cluster Spark:
+kubectl exec -it <spark-master-pod> -n spark -- /opt/bitnami/spark/bin/spark-submit \
+  --master spark://spark-master:7077 \
+  --deploy-mode cluster \
+  --class org.apache.spark.examples.SparkPi \
+  /opt/bitnami/spark/examples/jars/spark-examples_2.12-3.1.1.jar \
+  100
+
+# Explications de cette commande:
+#     <spark-master-pod> doit être remplacé par le nom du pod Spark Master. Vous pouvez l'obtenir avec kubectl get pods -n spark.
+#     --master spark://spark-master:7077 indique l'URL du cluster Spark Master.
+#     --deploy-mode cluster spécifie que le travail doit être déployé sur le cluster.
+#     --class org.apache.spark.examples.SparkPi est la classe principale à exécuter.
+#     /opt/bitnami/spark/examples/jars/spark-examples_2.12-3.1.1.jar est le chemin vers le fichier JAR contenant l'application Spark.
+#     100 est un argument spécifique à l'application SparkPi qui indique le nombre de tâches à exécuter.
