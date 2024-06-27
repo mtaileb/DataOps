@@ -12,7 +12,7 @@ chmod -R 777 dags/
 chmod -R 777 logs/
 
 # Lancer le déploiement:
-docker-compose up
+docker-compose up &
 
 # Ouvrir l'UI d'Airflow:
 <adresse_IP_machine>:8080
