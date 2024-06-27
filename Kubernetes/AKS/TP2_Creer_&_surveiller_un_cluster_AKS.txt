@@ -7,7 +7,9 @@ az group create --name Rg-AKS --location westeurope
 #Create the AKS resource
 az aks create --resource-group Rg-AKS --name demoAKS --node-count 2 --generate-ssh-keys --enable-addons monitoring --location uksouth
 
-- Alternative 2 avec Terraform: voir fichier.
+- Alternative 2 avec Terraform: voir https://github.com/mtaileb/DataOps/tree/main/Kubernetes/AKS/Deploiement_cluster_AKS_avec_Terraform
+
+
 - Ensuite, configurer kubeconfig pour AKS avec:
 az login // Si vous êtes en local; pas besoin si vous êtes sur le Cloud Shell
 az account set --subscription <subscription Id>
