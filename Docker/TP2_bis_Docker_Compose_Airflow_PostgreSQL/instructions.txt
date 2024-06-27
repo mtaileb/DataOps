@@ -13,6 +13,6 @@ chmod -R 777 logs/
 # Lancer le déploiement:
 docker-compose up
 
-# Ouvrir l'UI d'Aifrlow:
+# Ouvrir l'UI d'Airflow:
 <adresse_IP_machine>:8080
 
