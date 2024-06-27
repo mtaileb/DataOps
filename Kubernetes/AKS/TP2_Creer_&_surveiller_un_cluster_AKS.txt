@@ -9,7 +9,7 @@ az aks create --resource-group Rg-AKS --name demoAKS --node-count 2 --generate-s
 
 - Alternative 2 avec Terraform: voir fichier.
 - Ensuite, configurer kubeconfig pour AKS avec:
-az login // Si vous êtes en local
+az login // Si vous êtes en local; pas besoin si vous êtes sur le Cloud Shell
 az account set --subscription <subscription Id>
 az aks get-credentials --resource-group Rg-AKS --name demoAKS
 
