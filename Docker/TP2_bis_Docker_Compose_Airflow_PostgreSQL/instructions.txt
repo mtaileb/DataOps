@@ -2,7 +2,7 @@ mkdir dataops-docker-tp
 cd dataops-docker-tp
 
 # Télécharger et décompresser le fichier airflow_postgre.zipairflow_postgre.zip dans la machine cible:
-wget airflow_postgre.zip
+wget https://github.com/mtaileb/DataOps/raw/main/Docker/TP2_bis_Docker_Compose_Airflow_PostgreSQL/TP_airflow_postgre.zip
 unzip airflow_postgre.zip
 
 # Appliquer:
