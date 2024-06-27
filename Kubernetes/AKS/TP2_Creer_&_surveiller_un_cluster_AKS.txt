@@ -11,8 +11,7 @@ az aks create --resource-group Rg-AKS --name demoAKS --node-count 2 --generate-s
 - Ensuite, configurer kubeconfig pour AKS avec:
 az login // Si vous êtes en local
 az account set --subscription <subscription Id>
-az aks get-credentials --resource-group Rg-AKS --name
-demoAKS
+az aks get-credentials --resource-group Rg-AKS --name demoAKS
 
 - Voilà, vous pouvez maintenant tester votre cluster avec:
 kubectl get deployments --all-namespaces=true
