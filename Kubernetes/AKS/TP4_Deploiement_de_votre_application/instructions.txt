@@ -1,5 +1,6 @@
 - Passer en revue le code des deux fichier myapp-deployment et myapp-service ; que fait chacun?
 - Créer un nouveau répertoire dans le Azure CloudShell et y copier les deux fichiers:
+mkdir myapp && cd myapp
 wget https://github.com/mtaileb/DataOps/raw/main/Kubernetes/AKS/TP4_Deploiement_de_votre_application/myapp-deployment.yml
 wget https://github.com/mtaileb/DataOps/raw/main/Kubernetes/AKS/TP4_Deploiement_de_votre_application/myapp-service.yml
 - Exécuter:
