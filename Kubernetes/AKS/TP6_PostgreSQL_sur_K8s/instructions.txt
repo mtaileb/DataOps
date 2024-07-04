@@ -398,7 +398,7 @@ sysbench --db-driver=ps_db --pgsql-host= <POSTGRESQL_HOST> --pgsql-port=5432 --p
 
 # 3. Exécuter le test de charge
 # Une fois la préparation terminée, lancez le test de charge pour évaluer la performance et la scalabilité :
-sysbench --db-driver=ps_db --pgsql-host= <POSTGRESQL_HOST> --pgsql-port=5432 --pgsql-user=psuser --pgsql-password=SecurePassword --pgsql-db=postgres --tables=10 --table-size=1000000 --threads=16 --time=300 --report-interval=10 /usr/share/sysbench/oltp_read_write.lua run
+sysbench --db-driver=ps_db --pgsql-host= <POSTGRESQL_HOST> --pgsql-port=5432 --pgsql-user=ps_user --pgsql-password=SecurePassword --pgsql-db=postgres --tables=10 --table-size=1000000 --threads=16 --time=300 --report-interval=10 /usr/share/sysbench/oltp_read_write.lua run
 
 # Ce test exécute une charge de travail en lecture/écriture sur la base de données pendant 300 secondes (5 minutes) avec 16 
 # threads.
