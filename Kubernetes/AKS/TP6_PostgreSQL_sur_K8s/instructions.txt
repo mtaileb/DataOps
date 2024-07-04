@@ -393,15 +393,16 @@ sudo apt-get install sysbench
 # Accédez à votre instance PostgreSQL pour obtenir le mot de passe :
 kubectl get secret --namespace postgres my-release-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode
 
-# Ensuite, préparez la base de données avec Sysbench (remplacez <POSTGRESQL_HOST> par l'adresse de votre service PostgreSQL):
-sysbench --db-driver=ps_db --pgsql-host= <POSTGRESQL_HOST> --pgsql-port=5432 --pgsql-user=ps_user --pgsql-password=SecurePassword --pgsql-db=postgres --tables=10 --table-size=1000000 /usr/share/sysbench/oltp_read_write.lua prepare
+# Ensuite, préparez la base de données avec Sysbench (remplacez 192.168.1.10 par l'adresse de votre service PostgreSQL):
+sysbench --db-driver=ps_db --pgsql-host=192.168.1.10 --pgsql-port=5432 --pgsql-user=ps_user --pgsql-password=SecurePassword --pgsql-db=postgres --tables=10 --table-size=1000000 /usr/share/sysbench/oltp_read_write.lua prepare
 
 # 3. Exécuter le test de charge
 # Une fois la préparation terminée, lancez le test de charge pour évaluer la performance et la scalabilité :
-sysbench --db-driver=ps_db --pgsql-host= <POSTGRESQL_HOST> --pgsql-port=5432 --pgsql-user=ps_user --pgsql-password=SecurePassword --pgsql-db=postgres --tables=10 --table-size=1000000 --threads=16 --time=300 --report-interval=10 /usr/share/sysbench/oltp_read_write.lua run
+sysbench --db-driver=ps_db --pgsql-host=192.168.1.10 --pgsql-port=5432 --pgsql-user=ps_user --pgsql-password=SecurePassword --pgsql-db=postgres --tables=10 --table-size=1000000 --threads=16 --time=300 --report-interval=10 /usr/share/sysbench/oltp_read_write.lua run
 
 # Ce test exécute une charge de travail en lecture/écriture sur la base de données pendant 300 secondes (5 minutes) avec 16 
 # threads.
+
 # 4. Analyser les résultats
 # Sysbench fournira des statistiques sur les transactions par seconde (TPS), la latence et d'autres métriques clés. Utilisez 
 # ces informations pour évaluer la performance et la capacité de votre cluster PostgreSQL à gérer des charges de travail 
