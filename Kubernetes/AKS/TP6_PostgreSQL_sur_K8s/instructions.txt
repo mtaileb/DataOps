@@ -409,8 +409,6 @@ Pour tester la scalabilité de PostgreSQL déployé sur un cluster Kubernetes av
 
 Assurez-vous que Sysbench est installé sur une machine qui peut accéder à votre cluster Kubernetes. Vous pouvez installer Sysbench sur une machine Ubuntu avec la commande suivante :
 
-sh
-
 sudo apt-get install sysbench
 
 2. Préparer la base de données
@@ -419,13 +417,9 @@ Initialisez la base de données avec des données de test. Vous devrez d'abord o
 
 Accédez à votre instance PostgreSQL pour obtenir le mot de passe :
 
-sh
-
 kubectl get secret --namespace postgres my-release-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode
 
 Ensuite, préparez la base de données avec Sysbench :
-
-sh
 
 sysbench --db-driver=pgsql --pgsql-host=<POSTGRESQL_HOST> --pgsql-port=5432 --pgsql-user=postgres --pgsql-password=<POSTGRESQL_PASSWORD> --pgsql-db=postgres --tables=10 --table-size=1000000 /usr/share/sysbench/oltp_read_write.lua prepare
 
@@ -433,8 +427,6 @@ Remplacez <POSTGRESQL_HOST> par l'adresse de votre service PostgreSQL, et <POSTG
 3. Exécuter le test de charge
 
 Une fois la préparation terminée, lancez le test de charge pour évaluer la performance et la scalabilité :
-
-sh
 
 sysbench --db-driver=pgsql --pgsql-host=<POSTGRESQL_HOST> --pgsql-port=5432 --pgsql-user=postgres --pgsql-password=<POSTGRESQL_PASSWORD> --pgsql-db=postgres --tables=10 --table-size=1000000 --threads=16 --time=300 --report-interval=10 /usr/share/sysbench/oltp_read_write.lua run
 
