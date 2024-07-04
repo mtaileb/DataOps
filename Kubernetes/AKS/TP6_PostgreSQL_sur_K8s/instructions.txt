@@ -1,3 +1,5 @@
+Après avoir créé un cluster K8s (voir ce tutoriel:https://github.com/mtaileb/DataOps/blob/main/Kubernetes/AKS/TP2_Creer_%26_surveiller_un_cluster_AKS.txt)
+
 Introduction:
 Deploying a PostgreSQL database on a Kubernetes cluster has become a popular approach for managing scalable, resilient, and dynamic database environments. Kubernetes has container orchestration capabilities that offer a robust framework for deploying and managing applications, including databases like PostgreSQL, in a distributed environment. This integration provides significant scalability, resilience, and efficient resource utilization advantages. By leveraging Kubernetes features such as scalability, automated deployment, and self-healing capabilities, users can ensure the seamless operation of their PostgreSQL databases in a containerized environment.
 
