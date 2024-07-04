@@ -398,10 +398,12 @@ sysbench --db-driver=ps_db --pgsql-host=192.168.1.10 --pgsql-port=5432 --pgsql-u
 
 # 3. Exécuter le test de charge
 # Une fois la préparation terminée, lancez le test de charge pour évaluer la performance et la scalabilité :
-sysbench --db-driver=ps_db --pgsql-host=192.168.1.10 --pgsql-port=5432 --pgsql-user=ps_user --pgsql-password=SecurePassword --pgsql-db=postgres --tables=10 --table-size=1000000 --threads=16 --time=300 --report-interval=10 /usr/share/sysbench/oltp_read_write.lua run
-
 # Ce test exécute une charge de travail en lecture/écriture sur la base de données pendant 300 secondes (5 minutes) avec 16 
 # threads.
+sysbench --db-driver=ps_db --pgsql-host=192.168.1.10 --pgsql-port=5432 --pgsql-user=ps_user --pgsql-password=SecurePassword --pgsql-db=postgres --tables=10 --table-size=1000000 --threads=16 --time=300 --report-interval=10 /usr/share/sysbench/oltp_read_write.lua run
+
+# Pour visualiser la création du second pod en temps réel:
+kubectl get pods -l app=postgres  --watch
 
 # 4. Analyser les résultats
 # Sysbench fournira des statistiques sur les transactions par seconde (TPS), la latence et d'autres métriques clés. Utilisez 
