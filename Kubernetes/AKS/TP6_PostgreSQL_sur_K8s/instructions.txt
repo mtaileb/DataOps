@@ -401,3 +401,60 @@ kubectl exec -it postgres-665b7554dc-cddgq -- /bin/bash
 Next, run the psql command to restore the backup from the dump file.
 
 psql -U ps_user -d ps_db -f /tmp/db_backup.sql
+
+###########################################################################################################################
+
+Pour tester la scalabilité de PostgreSQL déployé sur un cluster Kubernetes avec Sysbench, suivez ces étapes :
+1. Installer Sysbench
+
+Assurez-vous que Sysbench est installé sur une machine qui peut accéder à votre cluster Kubernetes. Vous pouvez installer Sysbench sur une machine Ubuntu avec la commande suivante :
+
+sh
+
+sudo apt-get install sysbench
+
+2. Préparer la base de données
+
+Initialisez la base de données avec des données de test. Vous devrez d'abord obtenir les informations d'accès à votre base de données PostgreSQL.
+
+Accédez à votre instance PostgreSQL pour obtenir le mot de passe :
+
+sh
+
+kubectl get secret --namespace postgres my-release-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode
+
+Ensuite, préparez la base de données avec Sysbench :
+
+sh
+
+sysbench --db-driver=pgsql --pgsql-host=<POSTGRESQL_HOST> --pgsql-port=5432 --pgsql-user=postgres --pgsql-password=<POSTGRESQL_PASSWORD> --pgsql-db=postgres --tables=10 --table-size=1000000 /usr/share/sysbench/oltp_read_write.lua prepare
+
+Remplacez <POSTGRESQL_HOST> par l'adresse de votre service PostgreSQL, et <POSTGRESQL_PASSWORD> par le mot de passe obtenu.
+3. Exécuter le test de charge
+
+Une fois la préparation terminée, lancez le test de charge pour évaluer la performance et la scalabilité :
+
+sh
+
+sysbench --db-driver=pgsql --pgsql-host=<POSTGRESQL_HOST> --pgsql-port=5432 --pgsql-user=postgres --pgsql-password=<POSTGRESQL_PASSWORD> --pgsql-db=postgres --tables=10 --table-size=1000000 --threads=16 --time=300 --report-interval=10 /usr/share/sysbench/oltp_read_write.lua run
+
+Ce test exécute une charge de travail en lecture/écriture sur la base de données pendant 300 secondes (5 minutes) avec 16 threads.
+4. Analyser les résultats
+
+Sysbench fournira des statistiques sur les transactions par seconde (TPS), la latence et d'autres métriques clés. Utilisez ces informations pour évaluer la performance et la capacité de votre cluster PostgreSQL à gérer des charges de travail accrues.
+5. Adapter le cluster
+
+Si nécessaire, ajustez la configuration de votre cluster Kubernetes pour améliorer la performance :
+
+    Ajuster les ressources : Augmentez les ressources allouées (CPU, mémoire) aux pods PostgreSQL.
+    Scaler horizontalement : Augmentez le nombre de réplicas de votre StatefulSet PostgreSQL.
+    Optimiser les configurations PostgreSQL : Ajustez les paramètres de configuration de PostgreSQL pour une meilleure performance.
+
+6. Réexécuter les tests
+
+Après avoir ajusté votre configuration, réexécutez les tests de charge avec Sysbench pour voir si les performances se sont améliorées.
+Sources
+
+    Sysbench Documentation
+    Kubernetes StatefulSet Documentation
+    PostgreSQL Performance Tuning
