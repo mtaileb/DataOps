@@ -1,7 +1,7 @@
 # CREATION DE L'APPLICATION DANS DOCKER COMPOSE:
 # /!\ LANCER UNE VM LINUX AVEC DOCKER POUR LES COMMANDES SUIVANTES.
 # On va d'abord créer notre application avec Docker et Docker Compose pour générer les images qu'on va plus tard déployer sur AKS:
-git clone https://github.com/Azure-Samples/aks-store-demo.git
+git clone https://github.com/mtaileb/aks-store-demo.git
 cd aks-store-demo
 # Parcourez (en l'ouvrant avec cat) le fichier Docker Compose docker-compose-quickstart.yml pour voir ce que contient l'application:
 cat docker-compose-quickstart.yml
