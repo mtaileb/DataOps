@@ -14,5 +14,6 @@ docker ps
 (# POUR INFO, NE PAS EXECUTER MAINTENANT: pour arrêter les conteneurs: docker compose down)
 # A noter qu'il est possible de tester l'application sur un environnement LOCAL en la lançant avec Docker Compose et en se connectant à http://localhost:8080, ou alors:
 curl http://localhost:8080
+# En ouvrant le port 8080 de la VM, il sera aussi possible d'ouvrir l'application web via votre navigateur via >adresse-IP-de-la-VM>:8080.
 
 # /!\ Ne pas supprimer cette VM car elle sera réutilisée pour le TP Kubernetes sur AKS!
