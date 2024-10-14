@@ -1,0 +1,168 @@
+Voici une explication détaillée de ce fichier Docker Compose :
+
+```yaml
+version: "3.7"
+```
+Spécifie la version du fichier Docker Compose (3.7), compatible avec les fonctionnalités modernes de Docker.
+
+```yaml
+services:
+  rabbitmq:
+    image: rabbitmq:3.11.17-management-alpine
+```
+Définit un service **RabbitMQ** en utilisant une image légère avec outils de gestion pour la file d'attente de messages.
+
+```yaml
+    container_name: 'rabbitmq'
+```
+Nom du conteneur : **rabbitmq**.
+
+```yaml
+    restart: always
+```
+Redémarre automatiquement le conteneur s'il est arrêté.
+
+```yaml
+    environment:
+      - "RABBITMQ_DEFAULT_USER=username"
+      - "RABBITMQ_DEFAULT_PASS=password"
+```
+Définit des identifiants par défaut pour RabbitMQ (remplacez `username` et `password`).
+
+```yaml
+    ports:
+      - 15672:15672
+      - 5672:5672
+```
+Expose les ports de gestion (15672) et de messagerie (5672) sur l’hôte.
+
+```yaml
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+```
+Configure un test de santé pour vérifier que RabbitMQ fonctionne toutes les 30 secondes.
+
+```yaml
+    volumes:
+      - ./rabbitmq_enabled_plugins:/etc/rabbitmq/enabled_plugins
+```
+Monte un fichier local pour configurer les plugins de RabbitMQ.
+
+```yaml
+    networks:
+      - backend_services
+```
+Ajoute RabbitMQ au réseau `backend_services` pour la communication entre services.
+
+---
+
+```yaml
+  orderservice:
+    build: src/order-service
+```
+Définit le **Order Service**, construit depuis `src/order-service`.
+
+```yaml
+    container_name: 'orderservice'
+    restart: always
+    ports:
+      - 3000:3000
+```
+Nom du conteneur : **orderservice**, redémarrage automatique et port 3000 exposé.
+
+```yaml
+    healthcheck:
+      test: ["CMD", "wget", "-O", "/dev/null", "-q", "http://orderservice:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+```
+Configure un test de santé pour vérifier l'accès à `/health`.
+
+```yaml
+    environment:
+      - ORDER_QUEUE_HOSTNAME=rabbitmq
+      - ORDER_QUEUE_PORT=5672
+      - ORDER_QUEUE_USERNAME=username
+      - ORDER_QUEUE_PASSWORD=password
+      - ORDER_QUEUE_NAME=orders
+      - ORDER_QUEUE_RECONNECT_LIMIT=3
+```
+Définit les variables d’environnement pour la connexion RabbitMQ.
+
+```yaml
+    networks:
+      - backend_services
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+```
+Associe `orderservice` au réseau `backend_services` et dépend de l'état de santé de RabbitMQ.
+
+---
+
+```yaml
+  productservice:
+    build: src/product-service
+    container_name: 'productservice'
+    restart: always
+    ports:
+      - 3002:3002
+```
+Définit le **Product Service**, construit depuis `src/product-service` avec le port 3002 exposé.
+
+```yaml
+    healthcheck:
+      test: ["CMD", "wget", "-O", "/dev/null", "-q", "http://productservice:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - backend_services
+```
+Configure un test de santé et le connecte au réseau `backend_services`.
+
+---
+
+```yaml
+  storefront:
+    build: src/store-front
+    container_name: 'storefront'
+    restart: always
+    ports:
+      - 8080:8080
+```
+Définit le **Storefront** pour le frontend, construit depuis `src/store-front` et exposé sur le port 8080.
+
+```yaml
+    healthcheck:
+      test: ["CMD", "wget", "-O", "/dev/null", "-q", "http://storefront:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+```
+Test de santé pour `/health` pour assurer la disponibilité.
+
+```yaml
+    environment:
+      - VUE_APP_PRODUCT_SERVICE_URL=http://productservice:3002/
+      - VUE_APP_ORDER_SERVICE_URL=http://orderservice:3000/
+    networks:
+      - backend_services
+    depends_on:
+      - productservice
+      - orderservice
+```
+Configure les URL pour se connecter aux services backend et dépend de la disponibilité de ceux-ci.
+
+---
+
+```yaml
+networks:
+  backend_services:
+    driver: bridge
+```
+Crée un réseau `backend_services` de type `bridge` pour la communication entre services.
