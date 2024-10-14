@@ -10,12 +10,12 @@ services:
   rabbitmq:
     image: rabbitmq:3.11.17-management-alpine
 ```
-Définit un service **RabbitMQ** en utilisant une image légère avec outils de gestion pour la file d'attente de messages.
+Définit un service RabbitMQ en utilisant une image légère avec outils de gestion pour la file d'attente de messages.
 
 ```yaml
     container_name: 'rabbitmq'
 ```
-Nom du conteneur : **rabbitmq**.
+Nom du conteneur : rabbitmq.
 
 ```yaml
     restart: always
@@ -63,7 +63,7 @@ Ajoute RabbitMQ au réseau `backend_services` pour la communication entre servic
   orderservice:
     build: src/order-service
 ```
-Définit le **Order Service**, construit depuis `src/order-service`.
+Définit le Order Service, fait le build depuis `src/order-service`.
 
 ```yaml
     container_name: 'orderservice'
@@ -71,7 +71,7 @@ Définit le **Order Service**, construit depuis `src/order-service`.
     ports:
       - 3000:3000
 ```
-Nom du conteneur : **orderservice**, redémarrage automatique et port 3000 exposé.
+Nom du conteneur : orderservice, redémarrage automatique et port 3000 exposé.
 
 ```yaml
     healthcheck:
@@ -112,7 +112,7 @@ Associe `orderservice` au réseau `backend_services` et dépend de l'état de sa
     ports:
       - 3002:3002
 ```
-Définit le **Product Service**, construit depuis `src/product-service` avec le port 3002 exposé.
+Définit le Product Service, crée le build depuis `src/product-service` avec le port 3002 exposé.
 
 ```yaml
     healthcheck:
@@ -135,7 +135,7 @@ Configure un test de santé et le connecte au réseau `backend_services`.
     ports:
       - 8080:8080
 ```
-Définit le **Storefront** pour le frontend, construit depuis `src/store-front` et exposé sur le port 8080.
+Définit le Storefront pour le frontend, construit depuis `src/store-front` et exposé sur le port 8080.
 
 ```yaml
     healthcheck:
