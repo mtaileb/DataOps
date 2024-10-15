@@ -1,2 +1,2 @@
-resoure_group_name ="monappRg"
+resource_group_name ="monappRg"
 application_name ="monapp"
