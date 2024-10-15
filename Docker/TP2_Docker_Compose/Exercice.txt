@@ -1,0 +1,11 @@
+Exercice Docker Compose - Déploiement d'Application Web
+
+Contexte : Vos élèves doivent déployer une application Web composée d’un serveur **Nginx** pour servir une page statique et d’une base de données **MySQL** pour stocker les données.
+
+Objectif : Créer un fichier `docker-compose.yml` qui :
+1. Crée un conteneur Nginx exposé sur le port 8080 pour afficher une page HTML simple.
+2. Crée un conteneur MySQL avec :
+   - un mot de passe racine sécurisé,
+   - une base de données nommée `student_db`,
+   - un volume persistant.
+3. Connecte les deux conteneurs sur un même réseau nommé `web_network`.
