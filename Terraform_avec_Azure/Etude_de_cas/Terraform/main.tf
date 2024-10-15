@@ -105,7 +105,7 @@ resource "azurerm_lb" "LB" {
  }
 }
 
-## Create and assign a backend address pool which will hold both VMs behind the load balancer
+## Create and assign a backend address pool which will hold both VMs behind the load balancer (it's not possible to assign VMs to a load balancer without a backend pool)
 resource "azurerm_lb_backend_address_pool" "be_pool" {
  resource_group_name = azurerm_resource_group.monolithRG.name
  loadbalancer_id     = azurerm_lb.LB.id
