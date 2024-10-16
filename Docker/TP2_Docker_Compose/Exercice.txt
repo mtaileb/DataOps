@@ -9,3 +9,5 @@ Objectif : Créer un fichier `docker-compose.yml` qui :
    - une base de données nommée `student_db`,
    - un volume persistant.
 3. Connecte les deux conteneurs sur un même réseau nommé `web_network`.
+
+Question: retrouver le contenu de la BDD aussi bien à l'intérieur du conteneur MySQL que sur le système hôte (astuce: aidez-vous avec 'docker volume ps' et 'docker volume inspeect').
