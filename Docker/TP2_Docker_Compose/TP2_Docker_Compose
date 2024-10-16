@@ -15,5 +15,19 @@ docker ps
 # A noter qu'il est possible de tester l'application sur un environnement LOCAL en la lançant avec Docker Compose et en se connectant à http://localhost:8080, ou alors:
 curl http://localhost:8080
 # En ouvrant le port 8080 de la VM, il sera aussi possible d'ouvrir l'application web via votre navigateur via >adresse-IP-de-la-VM>:8080.
+# Maintenant chargez les images créées dans Docker Hub (vous pouvez créer un compte gratuit si vous le souhaitez) après avoir modifié les tags des images pour mettre
+# le nom de votre dépôt (on en aura peut-être besoin pour le TP K8s):
+# Modification des tags:
+docker tag aks-store-demo-product-service:latest <nom_de_votre_depot>/aks-store-demo-store-front:latest
+docker tag aks-store-demo-product-service:latest <nom_de_votre_depot>/aks-store-demo-product-service:latest
+docker tag aks-store-demo-order-service:latest <nom_de_votre_depot>/aks-store-demo-order-service:latest
+docker tag rabbitmq:3.13.2-management-alpine <nom_de_votre_depot>/rabbitmq:latest
+# Login sur Docker Hub:
+docker login
+# Push des images:
+docker push mtaileb/aks-store-demo-store-front:latest
+docker push mtaileb/aks-store-demo-product-service:latest
+docker push mtaileb/aks-store-demo-order-service:latest
+docker push mtaileb/rabbitmq:latest
 
 # /!\ Ne pas supprimer cette VM car elle sera réutilisée pour le TP Kubernetes sur AKS!
