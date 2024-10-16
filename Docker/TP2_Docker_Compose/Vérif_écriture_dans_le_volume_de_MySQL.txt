@@ -1,0 +1,5 @@
+# Entrer dans le conteneur MySQL pour vérifier qu'il y écrit des données:
+docker exec -it mysql_db bash
+ls /var/lib/mysql
+
+# On devrait aussi voir ces données dans le répertoire de l'hôte.

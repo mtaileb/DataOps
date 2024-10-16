@@ -1,0 +1,9 @@
+/* Créer un fichier test.php dans le répertoire root de Nginx, puis visiter http://localhost:8080/test.php pour confirmer que Nginx accède à MySQL */
+
+<?php
+$mysqli = new mysqli("mysql_db", "student", "studentpassword", "student_db");
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
+}
+echo "Connected successfully to MySQL!";
+?>
