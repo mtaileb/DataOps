@@ -47,8 +47,8 @@ data azurerm_storage_account_sas state_container_sas_token {
     file  = false
   }
 
-  start  = "2021-03-21T00:00:00Z"
-  expiry = "2021-09-21T00:00:00Z"
+  start  = "2024-03-21T00:00:00Z"
+  expiry = "2025-09-21T00:00:00Z"
 
   permissions {
     read    = true
