@@ -23,6 +23,3 @@ provider "azurerm" {
   client_id       = var.client_id
   features {}
 }
-
-
-  client_secret   = var.client_secret
