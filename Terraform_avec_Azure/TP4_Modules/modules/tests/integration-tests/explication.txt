@@ -1,0 +1,9 @@
+Voici ce que font ces trois fichiers de tests d'intégration :
+
+1. `booksappsql_test.go` : Contient le code de tests d’intégration pour le module `booksappsql`, vérifiant si le module fonctionne correctement dans un environnement réel ou simulé avec d’autres composants.
+
+2. `go.mod` : Définit les dépendances nécessaires pour ces tests d’intégration, incluant les bibliothèques Go et autres modules requis.
+
+3. `go.sum` : Contient les somme de contrôle des dépendances du `go.mod`, garantissant la stabilité et la cohérence des versions des bibliothèques lors des tests. 
+
+Ces fichiers assurent l'intégrité et la fiabilité du module testé.
