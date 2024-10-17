@@ -1,0 +1,7 @@
+1. `booksappsql_test.go` : Ce fichier contient le code des tests unitaires pour le module `booksappsql`. Il teste des fonctions individuelles ou des composants pour vérifier leur bon fonctionnement.
+
+2. `go.mod` : Définit les dépendances et le chemin du module Go. Il spécifie les packages nécessaires et assure la cohérence des dépendances.
+
+3. `go.sum` : Fournit les somme de contrôle des dépendances de `go.mod` pour garantir l’intégrité et la cohérence des versions entre les versions.
+
+Ces fichiers structurent les tests unitaires et assurent la fiabilité du module.
