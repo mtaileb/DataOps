@@ -1,0 +1,24 @@
+# En ligne de commande (au prélable, se créer un PAT sur https://github.com/settings/tokens):
+export CR_PAT=YOUR_TOKEN
+echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+docker pull ghcr.io/mlflow/mlflow
+
+# Lancement de l'image, qui expose MLflow sur le port 5000:
+# Sous Linux:
+docker run -p 5000:5000 -v $(pwd)/mlruns:/mlflow/mlruns ghcr.io/mlflow/mlflow mlflow server \
+   --backend-store-uri sqlite:///mlflow.db \
+   --default-artifact-root /mlflow/mlruns
+
+# Sous Windows:
+docker run -p 5000:5000 -v C:/Users/Toto/mlruns:/mlflow/mlruns ghcr.io/mlflow/mlflow mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/mlruns
+
+# Serving:
+docker run -p 5001:5001 \
+   -v C:/Users/Toto/mlruns:/mlflow/mlruns \
+   ghcr.io/mlflow/mlflow models serve -m /mlflow/mlruns/0/<run_id>/artifacts/model -p 5001
+
+# Servir un modèle particulier sous forme d'API REST (bien préciser --no-conda à la fin pour éviter l'appel au MLflow local):
+docker run -p 5001:5001 -v C:/Users/Toto/mlruns:/mlflow/mlruns ghcr.io/mlflow/mlflow mlflow models serve -m /mlflow/mlruns/873645397011975104/160f77079814425bacff86afbd7f6f78/artifacts/model -p 5001 --no-conda
+
+# Tester le modèle servi:
+curl -X POST http://127.0.0.1:5001/invocations -H "Content-Type: application/json" --data '{"inputs": [[14.23, 1.71, 2.43, 15.6, 127.0, 2.8, 3.06, 0.28, 2.29, 5.64, 1.04, 3.92, 1065.0]]}'
