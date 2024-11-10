@@ -36,12 +36,12 @@ ssh <username>@<adresse_ip_publique_vm> << 'EOF'
     cd ~/environments_folder/project_folder
     
     # Lancer le serveur MLflow en arrière-plan
-    mlflow server --backend-store-uri /home/<username>/environments_folder/project_folder --host 0.0.0.0 --port 5000 &
+    nohup mlflow server --backend-store-uri /home/<username>/environments_folder/project_folder --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
 EOF
 
-# Redirection du port pour accéder au serveur MLflow depuis la machine locale
+# Redirection du port pour accéder au serveur MLflow depuis la machine locale en mode background
 echo "Configuration de la redirection de port pour le service MLflow..."
-ssh -N -L 5000:localhost:5000 <username>@<adresse_ip_publique_vm> &
+ssh -N -f -L 5000:localhost:5000 <username>@<adresse_ip_publique_vm>
 
 # Test de connexion au serveur MLflow
 echo "Test de connexion au serveur MLflow..."
@@ -57,10 +57,10 @@ ssh <username>@<adresse_ip_publique_vm> << 'EOF'
     ipython kernel install --user --name=my_env
     pip install sklearn azure-common
     
-    # Lancer Jupyter Notebook sur le port 1212
-    jupyter notebook --no-browser --port=1212 &
+    # Lancer Jupyter Notebook sur le port 1212 en arrière-plan
+    nohup jupyter notebook --no-browser --port=1212 > jupyter.log 2>&1 &
 EOF
 
-# Redirection du port pour accéder à Jupyter Notebook depuis la machine locale
+# Redirection du port pour accéder à Jupyter Notebook depuis la machine locale en mode background
 echo "Configuration de la redirection de port pour Jupyter Notebook..."
-ssh -N -L 1212:localhost:1212 <username>@<adresse_ip_publique_vm> &
+ssh -N -f -L 1212:localhost:1212 <username>@<adresse_ip_publique_vm>
