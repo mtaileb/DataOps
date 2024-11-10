@@ -1,3 +1,5 @@
+# Prérequis: machine locale + serveur sont des Linux (Ubuntu pour le serveur)
+
 ## Sur le terminal local, créez une clé SSH si vous n'en avez pas déjà une
 ssh-keygen -o
 # Pour afficher votre clé SSH publique
