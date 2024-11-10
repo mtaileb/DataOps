@@ -32,11 +32,11 @@ cd project_folder
 # Créer un dossier pour le traqueur MLflow
 mkdir mlflow_tracker
 # Lancer le service MLflow
-mlflow server --backend-store-uri /home/mlflow/environments_folder/project_folder --host 0.0.0.0 --port 5000 &
+nohup mlflow server --backend-store-uri /home/<username>/environments_folder/project_folder --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
 
 ## Sur le terminal local
 # Accéder au service MLflow depuis la machine locale
-ssh -N -L 5000:localhost:5000 <username>@<adresse_ip_publique_vm>
+ssh -N -f  -L 5000:localhost:5000 <username>@<adresse_ip_publique_vm>
 ### Testez la connexion au serveur MLflow en allant sur http://localhost:5000/ dans votre navigateur, ou bien dans un terminal :
 curl http://localhost:5000
 
@@ -50,9 +50,9 @@ ipython kernel install --user --name=my_env
 pip install sklearn 
 pip install azure-common
 # Lancer une session de notebook sur le port 1212
-jupyter notebook --no-browser --port=1212
+nohup jupyter notebook --no-browser --port=1212 > jupyter.log 2>&1 &
 
 ## Sur le terminal local ##
-ssh -N -L 1212:localhost:1212 <username>@<adresse_ip_publique_vm>
+ssh -N -f -L 1212:localhost:1212 <username>@<adresse_ip_publique_vm>
 
 # Ensuite ouvrez Jupyter en local (il devrait automatiquement se connecter au serveur), sélectionner le noyau de l'environnement déjà créé, puis exécutez votre code Python.
