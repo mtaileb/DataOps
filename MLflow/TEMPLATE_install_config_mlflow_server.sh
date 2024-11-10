@@ -55,7 +55,7 @@ ssh <username>@<adresse_ip_publique_vm> << 'EOF'
     # Installer Jupyter et les bibliothèques supplémentaires
     pip3 install jupyter ipykernel
     ipython kernel install --user --name=my_env
-    pip install sklearn azure-common
+    pip install scikit-learn
     
     # Lancer Jupyter Notebook sur le port 1212 en arrière-plan
     nohup jupyter notebook --no-browser --port=1212 > jupyter.log 2>&1 &
