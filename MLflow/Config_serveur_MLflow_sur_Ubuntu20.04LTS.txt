@@ -52,3 +52,5 @@ jupyter notebook --no-browser --port=1212
 
 ## Sur le terminal local ##
 ssh -N -L 1212:localhost:1212 <username>@<adresse_ip_publique_vm>
+
+# Ensuite ouvrez Jupyter en local (il devrait automatiquement se connecter au serveur), sélectionner le noyau de l'environnement déjà créé, puis exécutez votre code Python.
