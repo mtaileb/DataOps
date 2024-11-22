@@ -1,3 +1,4 @@
+# En ligne de commande:
 # command layout: command subcommand [dag_id] [task_id] [(optional) date]
 
 # testing print_date
