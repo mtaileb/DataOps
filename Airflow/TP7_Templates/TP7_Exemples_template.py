@@ -10,7 +10,7 @@ from airflow.operators.python import get_current_context
     tags=["example"],  # Tags pour identifier le DAG
     params={"foobar": "param_from_dag", "other_param": "from_dag"},  # Paramètres passés au DAG
 )
-def tutorial_taskflow_templates():
+def TP7_tutorial_taskflow_templates():
     """
     ### Documentation du tutoriel TaskFlow API
     Exemple de pipeline de données simple qui démontre l'utilisation
@@ -63,4 +63,4 @@ def tutorial_taskflow_templates():
         sql="sql/test.sql",  # Chemin vers le fichier SQL utilisé comme template
         test_var="{{ run_id }}",  # Template pour le paramètre test_var
     )
-tutorial_taskflow_templates()
+TP7_tutorial_taskflow_templates()
