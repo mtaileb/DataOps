@@ -1,0 +1,19 @@
+'''
+Dans l'exemple de code ci-dessous, le résultat d'un **HttpOperator** est capturé via **XComs**.
+Ce résultat XCom, qui est la sortie de la tâche, est ensuite passé à une fonction **TaskFlow** qui analyse la réponse en JSON.
+'''
+
+get_api_results_task = HttpOperator(
+    task_id="get_api_results",
+    endpoint="/api/query",
+    do_xcom_push=True,
+    http_conn_id="http",
+)
+
+
+@task
+def parse_results(api_results):
+    return json.loads(api_results)
+
+
+parsed_results = parse_results(api_results=get_api_results_task.output)
