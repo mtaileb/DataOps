@@ -1,0 +1,23 @@
+'''
+La sortie de la fonction **TaskFlow** `create_queue`, qui correspond à l'URL d'une file d'attente Amazon SQS nouvellement créée,
+est ensuite transmise à une tâche **SqsPublishOperator** en tant qu'argument `sqs_queue`.
+'''
+
+@task(retries=3)
+def create_queue():
+    """This is a Python function that creates an SQS queue"""
+    hook = SqsHook()
+    result = hook.create_queue(queue_name="sample-queue")
+
+    return result["QueueUrl"]
+
+
+sqs_queue = create_queue()
+
+publish_to_queue = SqsPublishOperator(
+    task_id="publish_to_queue",
+    sqs_queue=sqs_queue,
+    message_content="{{ task_instance }}-{{ execution_date }}",
+    message_attributes=None,
+    delay_seconds=0,
+)
