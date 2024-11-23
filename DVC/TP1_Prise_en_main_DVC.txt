@@ -1,0 +1,18 @@
+- Créez le dossier TP1
+- Ouvrez une CLI dans votre dossier TP1
+- Tapez git init puis dvc init
+- Créez le répertoire data avec : 
+mkdir data
+- Récupérez le dataset avec:
+dvc get https://github.com/mtaileb/DataOps DVC/titanic.csv -o data/titanic.csv
+- Vérifions la présence du fichier : 
+dir data
+- Ajoutons le tracking de ce dataset avec DVC : 
+dvc add data/titanic.csv
+- Ajoutons le tracking git des deux fichiers créés suite à la commande précédente : 
+git add data/titanic.csv.dvc data/.gitignore
+- Faisons un commit : 
+git commit -m "Add raw data"
+- Voyons le contenu du fichier : 
+notepad data/titanic.csv.dvc
+- 
