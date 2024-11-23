@@ -1,3 +1,4 @@
+```python
 @task.docker(image="python:3.9-slim-bookworm", multiple_outputs=True)
 def transform(order_data_dict: dict):
     """
@@ -8,4 +9,7 @@ def transform(order_data_dict: dict):
     total_order_value = 0  # Initialisation de la valeur totale des commandes
 
     for value in order_data_dict.values():  # Parcours des valeurs des commandes
-        total_order_value += value  # Addition des valeurs pour obteni
+        total_order_value += value  # Addition des valeurs pour obtenir le total
+
+    return {"total_order_value": total_order_value}  # Retourne le total comme un dictionnaire
+```
