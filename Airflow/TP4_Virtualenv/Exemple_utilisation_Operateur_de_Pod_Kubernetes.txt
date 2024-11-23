@@ -1,0 +1,40 @@
+```python
+@task.kubernetes(
+    image="python:3.8-slim-buster",  # Image Docker utilisée pour le pod Kubernetes
+    name="k8s_test",  # Nom de la tâche exécutée dans Kubernetes
+    namespace="default",  # Namespace dans lequel le pod sera créé
+    in_cluster=False,  # Indique si la tâche s'exécute à l'intérieur ou à l'extérieur du cluster Kubernetes
+    config_file="/path/to/.kube/config",  # Chemin vers le fichier de configuration Kubernetes
+)
+def execute_in_k8s_pod():
+    import time
+
+    print("Bonjour depuis un pod Kubernetes")
+    time.sleep(2)  # Pause de 2 secondes
+
+
+@task.kubernetes(
+    image="python:3.8-slim-buster",  # Image Docker utilisée
+    namespace="default",  # Namespace dans Kubernetes
+    in_cluster=False,  # Indique que la tâche s'exécute hors du cluster Kubernetes
+)
+def print_pattern():
+    n = 5  # Nombre de lignes du motif à afficher
+    for i in range(n):
+        # Boucle interne pour gérer le nombre de colonnes
+        # Les valeurs changent en fonction de la boucle externe
+        for _ in range(i + 1):
+            # Impression des étoiles
+            print("* ", end="")
+
+        # Nouvelle ligne après chaque rangée
+        print("\r")
+
+
+# Instanciation des tâches définies
+execute_in_k8s_pod_instance = execute_in_k8s_pod()
+print_pattern_instance = print_pattern()
+
+# Définition de la séquence des tâches : exécute d'abord le pod, puis imprime le motif
+execute_in_k8s_pod_instance >> print_pattern_instance
+```
