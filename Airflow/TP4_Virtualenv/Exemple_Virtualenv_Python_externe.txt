@@ -1,0 +1,22 @@
+def callable_external_python():
+    """
+    Exemple de fonction qui sera exécutée dans un environnement Python externe.
+
+    Importer les bibliothèques au niveau de la fonction garantit qu'elles ne seront
+    pas importées avant d'être disponibles dans l'environnement.
+    """
+    import sys
+    from time import sleep
+
+    print(f"Exécution de la tâche via {sys.executable}")  # Affiche le chemin de l'exécutable Python utilisé
+    print("Mise en veille")
+    for _ in range(4):
+        print("Veuillez patienter...", flush=True)  # Message répétitif avec vidage immédiat de la sortie
+        sleep(1)
+    print("Terminé")  # Indique la fin de l'exécution
+
+external_python_task = ExternalPythonOperator(
+    task_id="external_python",  # Identifiant unique de la tâche
+    python_callable=callable_external_python,  # Fonction Python à exécuter
+    python=PATH_TO_PYTHON_BINARY,  # Chemin vers l'exécutable Python externe
+)
