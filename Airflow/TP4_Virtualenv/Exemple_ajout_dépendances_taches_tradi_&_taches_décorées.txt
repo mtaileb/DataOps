@@ -1,0 +1,27 @@
+```python
+@task()
+def extract_from_file():
+    """
+    #### Tâche d'extraction à partir d'un fichier
+    Une tâche simple d'extraction pour préparer les données pour le reste
+    du pipeline, en lisant les données depuis un fichier dans un dataframe pandas.
+    """
+    order_data_file = "/tmp/order_data.csv"  # Chemin vers le fichier CSV contenant les données de commande
+    order_data_df = pd.read_csv(order_data_file)  # Lecture des données dans un dataframe pandas
+    return order_data_df
+
+
+# Capteur pour vérifier la présence du fichier avant l'exécution de l'extraction
+file_task = FileSensor(
+    task_id="check_file",  # Identifiant unique pour la tâche
+    filepath="/tmp/order_data.csv",  # Chemin vers le fichier à vérifier
+)
+
+# Exécution de la tâche d'extraction une fois le fichier disponible
+order_data = extract_from_file()
+
+# Définition de la dépendance : la tâche d'extraction ne s'exécute qu'après la détection du fichier
+file_task >> order_data
+``` 
+
+# Ce code utilise un `FileSensor` pour surveiller la présence d'un fichier spécifique avant d'exécuter une tâche qui lit le fichier dans un dataframe pandas.
