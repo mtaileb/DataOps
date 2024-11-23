@@ -1,0 +1,25 @@
+```python
+from airflow.sensors.base import PokeReturnValue
+
+class SensorWithXcomValue(BaseSensorOperator):
+    def poke(self, context: Context) -> Union[bool, PokeReturnValue]:
+        """
+        Implémente une classe de capteur (sensor) personnalisée avec une valeur XCom.
+
+        Args:
+            context (Context): Contexte d'exécution du capteur, contenant les métadonnées du DAG et des tâches.
+
+        Returns:
+            Union[bool, PokeReturnValue]: Retourne soit un booléen pour indiquer si le capteur doit continuer
+            à "poker" ou non, soit un PokeReturnValue avec la valeur XCom.
+
+        Fonctionnement:
+        - `is_done` : Indique si le capteur doit arrêter de "poker" (vérifier l'état).
+        - `xcom_value` : La valeur qui sera envoyée dans XCom une fois que le capteur a terminé.
+        """
+        is_done = ...  # Définir à True si le capteur doit arrêter de vérifier l'état.
+        xcom_value = ...  # Valeur retournée par l'opérateur capteur, qui sera envoyée dans XCom.
+        return PokeReturnValue(is_done, xcom_value)
+```
+
+# Ce capteur personnalisé étend la classe `BaseSensorOperator` et permet de pousser une valeur vers XCom une fois que la tâche est terminée, tout en contrôlant si elle doit continuer ou non.
