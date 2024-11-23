@@ -1,4 +1,5 @@
-# Avant TaskFlow:
+# DEFINITION DES TACHES (voir l'enchainement des tâches plus loin):
+# AVANT TASKFLOW:
 def transform(**kwargs):
     ti = kwargs["ti"]
     extract_data_string = ti.xcom_pull(task_ids="extract", key="order_data")
@@ -12,7 +13,7 @@ def transform(**kwargs):
     total_value_json_string = json.dumps(total_value)
     ti.xcom_push("total_order_value", total_value_json_string)
 
-# Après TaskFlow:
+# APRES TASKFLOW:
 @task(multiple_outputs=True)
 def transform(order_data_dict: dict):
     """
@@ -26,3 +27,48 @@ def transform(order_data_dict: dict):
         total_order_value += value
 
     return {"total_order_value": total_order_value}
+
+# ENCHAINEMENT DES TACHES:
+# AVANT TASKFLOW:
+extract_task = PythonOperator(
+    task_id="extract",
+    python_callable=extract,
+)
+extract_task.doc_md = textwrap.dedent(
+    """\
+#### Extract task
+A simple Extract task to get data ready for the rest of the data pipeline.
+In this case, getting data is simulated by reading from a hardcoded JSON string.
+This data is then put into xcom, so that it can be processed by the next task.
+"""
+)
+transform_task = PythonOperator(
+    task_id="transform",
+    python_callable=transform,
+)
+transform_task.doc_md = textwrap.dedent(
+    """\
+#### Transform task
+A simple Transform task which takes in the collection of order data from xcom
+and computes the total order value.
+This computed value is then put into xcom, so that it can be processed by the next task.
+"""
+)
+load_task = PythonOperator(
+    task_id="load",
+    python_callable=load,
+)
+load_task.doc_md = textwrap.dedent(
+    """\
+#### Load task
+A simple Load task which takes in the result of the Transform task, by reading it
+from xcom and instead of saving it to end user review, just prints it out.
+"""
+)
+
+extract_task >> transform_task >> load_task
+
+# APRES TASKFLOW:
+order_data = extract()
+order_summary = transform(order_data)
+load(order_summary["total_order_value"])
