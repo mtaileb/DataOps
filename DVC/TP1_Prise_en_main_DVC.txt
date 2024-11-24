@@ -13,6 +13,8 @@ dvc add data/titanic.csv
 git add data/titanic.csv.dvc data/.gitignore
 - Faisons un commit : 
 git commit -m "Add raw data"
+- Ajoutons un tag:
+git tag -a "v1" -m "Version originale"
 - Voyons le contenu du fichier :
 notepad data/titanic.csv.dvc
 - Ensuite aller dans votre compte GCP, et créer un bucket et dossier 'data'
@@ -32,6 +34,8 @@ dvc add data/titanic.csv
 git add data/titanic.csv.dvc
 - Réalisons un commit (rappel: le dataset est toujours exclu car mentionné dans le .gitignore):
 git commit -m "MàJ dataset"
+- Ajoutons un tag:
+git tag -a "v2" -m "Version augmentée"
 - Faisons le push DVC vers le bucket:
 dvc push
 - Voyons un résumé des commits jusque-là:
