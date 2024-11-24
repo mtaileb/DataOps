@@ -20,10 +20,11 @@ notepad data/titanic.csv.dvc
 dvc remote add -d myremote gs://<mybucket>/<path>
 - Réalisons un git commit pour prendre en compte l'ajout du stockage distant dans le fichier de configuration de DVC:
 git commit .dvc/config -m "Ajout stockage distant"
-- Maintenant que le stockage de data distant est configuré, réalisons un push (avec DVC!) du dataset pour l'y déposer: dvc push
 - Sachant que notre dataset sera sur GCP, et que notre projet (hormisd le dataset) sera sur git, comment faire le lien entre les deux? I.e. comment, à partir du git, savoir où se trouve le dataset? La réponse est dans le fichier titanic.csv.dvc (qui se trouve dans le dossier 'data'), qui conserve cette information sur où le dataset est stocké, et que nous avons donc besoin de synchroniser sur le git. Par contre, avant de synchroniser le git avec le dépot distant, vérifions qu'ilne va pas synchroniser aussi le dataset, en vérifiant que celui-ci est bien mentionné dans le .gitignore:
 notepad data/.gitignore
 - On devrait y voir /titanic.csv
+- Maintenant que le stockage de data distant est configuré, réalisons un push (avec DVC!) du dataset pour l'y déposer: dvc push
+
 
 GERER PLUSSIEURS VERSIONS DU DATASET:
 - 
