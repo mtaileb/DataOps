@@ -25,7 +25,27 @@ notepad data/.gitignore
 - On devrait y voir /titanic.csv
 - Maintenant que le stockage de data distant est configuré, réalisons un push (avec DVC!) du dataset pour l'y déposer: dvc push
 
-
 GERER PLUSSIEURS VERSIONS DU DATASET:
-- 
-
+- Modifions le jeu de données titanic.csv en local (par exemple en doublant sa taille, en copiant-collant toutes les lignes), puis ajoutons cette nouvelle version à DVC avec:
+dvc add data/titanic.csv
+- DVC nous suggère de lancer la commande suivante pour suivre les changements dans git:
+git add data/titanic.csv.dvc
+- Réalisons un commit (rappel: le dataset est toujours exclu car mentionné dans le .gitignore):
+git commit -m "MàJ dataset"
+- Faisons le push DVC vers le bucket:
+dvc push
+- Voyons un résumé des commits jusque-là:
+git logs --oneline
+- Comment revenir à une version précédente du dataset? Pour cela, revenons avec 'git ckeckout' à la version correspondante de titanic.csv.dvc:
+git checkout HEAD~1 data/titanic.csv.dvc
+- Puis:
+dvc checkout
+- Vérifions avec la commande suivante qu'on est bien revenu à la version précédente du dataset:
+ls -lh data
+- Si jamais nous voulons revenir à cette ancienne version, réalisons un commit:
+git commit -m "Retour à la première version"
+- A ce point il est clair que DVC ne fait pas à proprement parler du contrôle de version: c'est git qui le fait, et DVC étend les capacités de git aux datasets, grâce au fichier .dvc
+- Créons un répo sur GitHub pour y mettre nos fichiers (hormis le dataset bien sûr):
+git remote add origin https://github.com/mtaileb/tp_dvc.git
+git branch -M main
+git push -u origin main
