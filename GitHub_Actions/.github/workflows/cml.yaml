@@ -1,7 +1,7 @@
 name: model-wine-quality
 on: [push]
 jobs:
-  run:
+  run: 
     runs-on: [ubuntu-latest]
     container: docker://dvcorg/cml-py3:latest
     steps:
