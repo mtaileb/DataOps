@@ -1,3 +1,14 @@
+# Exemple de création de l'environnement pour le notebook credit-card-fraud (voir plus loin les explications des commandes):
+conda create --name env_py39 python=3.9
+conda activate env_py39
+conda install scikit-learn==1.0.2
+conda install numpy==1.21.5 pandas==1.4.2 matplotlib==3.5.1 seaborn==0.11.2
+conda install mlflow
+conda install ipykernel
+python -m ipykernel install --user --name=nom_de_votre_env --display-name "Python (nom_de_votre_env)"
+
+
+
 I- Voici les étapes pour créer un environnement virtuel avec Conda sous Windows 10, et installer des versions spécifiques de Python et de bibliothèques comme scikit-learn :
 Étape 1 : Ouvrir l'Invite de Commande ou l'Invite Anaconda
 
