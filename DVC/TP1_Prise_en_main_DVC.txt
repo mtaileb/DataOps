@@ -12,6 +12,9 @@ dir data
 dvc add data/titanic.csv
 - Ajoutons le tracking git des deux fichiers créés suite à la commande précédente : 
 git add data/titanic.csv.dvc data/.gitignore
+- Si besoin:
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
 - Faisons un commit : 
 git commit -m "Add raw data"
 - Ajoutons un tag:
