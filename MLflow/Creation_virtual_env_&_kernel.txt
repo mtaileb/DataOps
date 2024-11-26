@@ -7,6 +7,14 @@ conda install mlflow
 conda install ipykernel
 python -m ipykernel install --user --name=nom_de_votre_env --display-name "Python (nom_de_votre_env)"
 
+# Alternative: utiliser un fichier requirements avec: !pip install -r requirements.txt
+# Contenu de requirements.txt:
+scikit-learn==1.0.2
+numpy==1.21.5
+pandas==1.4.2
+matplotlib==3.5.1
+seaborn==0.11.2
+mlflow
 
 
 I- Voici les étapes pour créer un environnement virtuel avec Conda sous Windows 10, et installer des versions spécifiques de Python et de bibliothèques comme scikit-learn :
