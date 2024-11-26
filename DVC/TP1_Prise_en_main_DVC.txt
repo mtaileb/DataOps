@@ -48,7 +48,7 @@ git tag -a "v2" -m "Version augmentée"
 - Faisons le push DVC vers le bucket:
 dvc push
 - Voyons un résumé des commits jusque-là:
-git logs --oneline
+git log --oneline
 - Comment revenir à une version précédente du dataset? Pour cela, revenons avec 'git ckeckout' à la version correspondante de titanic.csv.dvc:
 git checkout HEAD~1 data/titanic.csv.dvc
 - Puis:
