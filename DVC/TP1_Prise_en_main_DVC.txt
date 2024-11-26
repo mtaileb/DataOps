@@ -22,6 +22,7 @@ git tag -a "v1" -m "Version originale"
 - Voyons le contenu du fichier :
 notepad data/titanic.csv.dvc
 - Ensuite aller dans votre compte GCP, et créer un bucket et dossier 'data'
+- Configurer votre bucket en accès public: aller dans 'Permissions' -> ajouter le rôle 'Storage Object User' pour le principal 'allUsers' -> Enregistrer
 - Retourner dans la CLI et lancer la commande suivante, qui va ajouter un stockage par défaut (option -d) à DVC (remplacer l'ID par le vôtre):
 dvc remote add -d myremote gs://<mybucket>/<path>
 - Réalisons un git commit pour prendre en compte l'ajout du stockage distant dans le fichier de configuration de DVC:
