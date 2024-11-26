@@ -36,7 +36,7 @@ dvc push
 
 GERER PLUSSIEURS VERSIONS DU DATASET:
 - Modifions le jeu de données titanic.csv en local (par exemple en doublant sa taille, en copiant-collant toutes les lignes):
-cat data/titanic.csv >> data/titanic.csv
+cat titanic.csv | tee -a titanic.csv > /dev/null
 - Puis ajoutons cette nouvelle version à DVC avec:
 dvc add data/titanic.csv
 - DVC nous suggère de lancer la commande suivante pour suivre les changements dans git:
