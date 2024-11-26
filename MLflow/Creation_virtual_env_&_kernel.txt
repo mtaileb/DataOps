@@ -1,0 +1,189 @@
+I- Voici les étapes pour créer un environnement virtuel avec Conda sous Windows 10, et installer des versions spécifiques de Python et de bibliothèques comme scikit-learn :
+Étape 1 : Ouvrir l'Invite de Commande ou l'Invite Anaconda
+
+    Lancez l'Invite Anaconda ou une Invite de Commande classique.
+    Vérifiez que Conda est bien installé en tapant :
+
+    conda --version
+
+    Si une version s'affiche, Conda est correctement installé.
+
+Étape 2 : Créer un Environnement Virtuel
+
+Pour créer un nouvel environnement virtuel avec une version spécifique de Python, utilisez la commande suivante :
+
+conda create --name nom_env python=3.9
+
+    Remplacez nom_env par le nom que vous voulez donner à votre environnement.
+    Remplacez 3.9 par la version de Python que vous souhaitez (par exemple, 3.8 ou 3.10).
+
+Lorsque vous y êtes invité, tapez y pour confirmer la création de l'environnement.
+Étape 3 : Activer l'Environnement Virtuel
+
+Activez l'environnement que vous venez de créer :
+
+conda activate nom_env
+
+Votre invite de commande affichera l'environnement actif, par exemple :
+
+(nom_env) C:\>
+
+Étape 4 : Installer des Versions Spécifiques de Bibliothèques
+
+Pour installer des versions spécifiques de scikit-learn ou d'autres bibliothèques, utilisez la commande conda install. Par exemple :
+Installer Scikit-Learn
+
+conda install scikit-learn=1.0.2
+
+Remplacez 1.0.2 par la version désirée.
+Installer d'autres bibliothèques
+
+Ajoutez plusieurs bibliothèques avec leurs versions spécifiques. Exemple :
+
+conda install pandas=1.3.3 numpy=1.21.0 matplotlib=3.4.3
+
+Utiliser pip dans un Environnement Conda
+
+Si une version spécifique n'est pas disponible avec Conda, utilisez pip :
+
+pip install nom_bibliotheque==version
+
+Exemple :
+
+pip install seaborn==0.11.2
+
+Étape 5 : Vérifier les Installations
+
+Après l'installation, vous pouvez vérifier les versions installées :
+
+    Vérifier la version de Python :
+
+    python --version
+
+    Vérifier les versions des bibliothèques :
+
+    python -c "import sklearn; print(sklearn.__version__)"
+    python -c "import pandas; print(pandas.__version__)"
+
+Étape 6 : Sauvegarder et Partager l’Environnement (Optionnel)
+
+Si vous voulez sauvegarder la configuration de votre environnement pour la partager ou la reproduire :
+
+conda env export > environnement.yml
+
+Cela génère un fichier environnement.yml contenant toutes les versions des bibliothèques.
+
+Pour recréer cet environnement sur une autre machine :
+
+conda env create -f environnement.yml
+
+Étape 7 : Désactiver l’Environnement
+
+Quand vous avez terminé, désactivez l'environnement avec :
+
+conda deactivate
+
+Résumé des Commandes :
+
+    Créer un environnement :
+
+    conda create --name nom_env python=3.9
+
+    Activer l'environnement :
+
+    conda activate nom_env
+
+    Installer des versions spécifiques :
+
+    conda install nom_bibliotheque=version
+
+    Désactiver l'environnement :
+
+    conda deactivate
+
+Cette méthode permet d'avoir des environnements isolés avec les versions spécifiques de Python et des bibliothèques, évitant les conflits entre projets.
+
+
+
+II- Pour rendre un environnement virtuel Conda sélectionnable comme noyau (kernel) dans Jupyter Notebook, voici les étapes à suivre :
+---
+
+### **Étape 1 : Activer votre environnement Conda**
+Commencez par activer l'environnement Conda que vous souhaitez utiliser comme kernel :
+
+```bash
+conda activate nom_de_votre_env
+```
+
+Remplacez `nom_de_votre_env` par le nom de votre environnement Conda.
+
+---
+
+### **Étape 2 : Installer `ipykernel` dans l'environnement**
+Assurez-vous que le package `ipykernel` est installé dans l'environnement :
+
+```bash
+conda install ipykernel
+```
+
+Ce package est indispensable pour enregistrer l'environnement en tant que noyau Jupyter.
+
+---
+
+### **Étape 3 : Ajouter l'environnement à Jupyter**
+Enregistrez l'environnement Conda comme noyau dans Jupyter en exécutant cette commande :
+
+```bash
+python -m ipykernel install --user --name=nom_de_votre_env --display-name "Python (nom_de_votre_env)"
+```
+
+- **`--name`** : Identifiant interne pour le noyau.
+- **`--display-name`** : Nom affiché dans l'interface Jupyter Notebook.
+
+Par exemple, si votre environnement s'appelle `monenv` :
+```bash
+python -m ipykernel install --user --name=monenv --display-name "Python (monenv)"
+```
+
+---
+
+### **Étape 4 : Vérifier le kernel dans Jupyter**
+1. Lancez Jupyter Notebook ou JupyterLab :
+   ```bash
+   jupyter notebook
+   # ou
+   jupyter lab
+   ```
+
+2. Allez dans **Kernel > Change Kernel** et cherchez le noyau que vous venez d’ajouter (par exemple, `Python (monenv)`).
+
+---
+
+### **Étape 5 : Nettoyage optionnel**
+Si vous n’avez plus besoin d’un noyau enregistré dans Jupyter :
+1. Listez tous les kernels installés :
+   ```bash
+   jupyter kernelspec list
+   ```
+
+2. Supprimez un noyau inutile :
+   ```bash
+   jupyter kernelspec remove nom_du_kernel
+   ```
+
+---
+
+### **Dépannage**
+1. **Si le noyau n’apparaît pas dans Jupyter** :
+   - Assurez-vous d’avoir installé `ipykernel` dans le bon environnement Conda.
+   - Redémarrez Jupyter Notebook après avoir enregistré le noyau.
+
+2. **Si Jupyter est installé dans un autre environnement** :
+   - Installez Jupyter dans l'environnement de base ou l'environnement principal :
+     ```bash
+     conda install -n base jupyter
+     ```
+
+---
+
+En suivant ces étapes, votre environnement virtuel Conda sera disponible et sélectionnable comme kernel dans Jupyter Notebook !
