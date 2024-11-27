@@ -1,1 +1,5 @@
-Voir le support de formation.
+sudo usermod -aG docker $USER
+sudo docker build -t mtaileb/airflow-image:v1 .
+docker-compose up
+
+
