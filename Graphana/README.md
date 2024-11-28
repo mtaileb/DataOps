@@ -1,81 +1,81 @@
-## Monitoring Data Drift with Evidently AI and Grafana
+## Surveillance des dérives de données avec Evidently AI et Grafana
 
-Welcome to the repository for monitoring data drift using Evidently AI and Grafana. This guide will help you set up a robust system to ensure your machine learning models remain accurate and reliable over time.
+Bienvenue dans le référentiel pour surveiller les dérives de données à l'aide d'Evidently AI et Grafana. Ce guide vous aidera à configurer un système robuste pour garantir que vos modèles d'apprentissage automatique restent précis et fiables au fil du temps.
 
-### Overview
+### Vue d'ensemble
 
-Data drift can significantly impact the performance of machine learning models. This project provides a comprehensive solution to monitor data drift by leveraging Evidently AI for generating metrics and Grafana for visualization. The setup uses Docker Compose for easy deployment and management of services.
+La dérive des données peut avoir un impact significatif sur les performances des modèles d'apprentissage automatique. Ce projet fournit une solution complète pour surveiller les dérives de données en exploitant Evidently AI pour générer des métriques et Grafana pour la visualisation. La configuration utilise Docker Compose pour faciliter le déploiement et la gestion des services.
 
-### Features
-* Data Drift Monitoring: Keep track of changes in data distribution and ensure your models remain performant.
-* Visualization: Use Grafana to visualize drift metrics and gain insights into data quality.
-* Easy Setup: Deploy PostgreSQL, Adminer, and Grafana using Docker Compose.
+### Fonctionnalités
+* **Surveillance des dérives de données** : Suivez les changements dans la distribution des données et assurez-vous que vos modèles restent performants.
+* **Visualisation** : Utilisez Grafana pour visualiser les métriques de dérive et obtenir des informations sur la qualité des données.
+* **Configuration facile** : Déployez PostgreSQL, Adminer et Grafana avec Docker Compose.
 
-### Setup 
+### Installation 
 
-Create virtual environment:
+Créer un environnement virtuel :
 
 ```
 python -m venv venv
 ```
 
-Activate the virtual environment:
-* On Windows:
+Activer l'environnement virtuel :
+* Sous Windows :
 ```
 myenv\Scripts\activate
 ```
-* On macOS and Linux:
+* Sous macOS et Linux :
 
 ```
 source venv/bin/activate
 ```
 
-Install dependencies:
+Installer les dépendances :
 
 ```
 pip install -r requirements.txt
 ```
 
-Install new package if needed:
+Installer un nouveau package si nécessaire :
 
 ```
-pip install {package_name}
+pip install {nom_du_package}
 pip freeze > requirements.txt
 ```
 
-Deactivate the virtual environment:
+Désactiver l'environnement virtuel :
 ```
 deactivate
 ```
 
-Don't forget to activate the virtual environment every time you enter the project again.
+N'oubliez pas d'activer l'environnement virtuel chaque fois que vous revenez dans le projet.
 
-### Run 
+### Exécution 
 
 ```
 docker-compose up --build
 ```
 
-Grafana is running on `http://localhost:3000`
+Grafana est accessible à l'adresse `http://localhost:3000`
 
-Database is running on `http://localhost:8080/`
+La base de données est accessible à l'adresse `http://localhost:8080/`
 
-Run the data generation script:
+Exécutez le script de génération de données :
 
 ```
 python generate_data.py
 ```
 
-To stop:
+Pour arrêter :
 
 ```
 docker-compose down
 ```
 
-To access Evidently for monitoring:
+Pour accéder à Evidently pour la surveillance :
 
 ```
 evidently ui  
 ```
 
-![Here is the example visualization](./Grafana_monitoring.png)
+![Voici un exemple de visualisation](./Grafana_monitoring.png)
