@@ -1,6 +1,6 @@
 ## Surveillance des dérives de données avec Evidently AI et Grafana
 
-Bienvenue dans le référentiel pour surveiller les dérives de données à l'aide d'Evidently AI et Grafana. Ce guide vous aidera à configurer un système robuste pour garantir que vos modèles d'apprentissage automatique restent précis et fiables au fil du temps.
+Bienvenue dans ce référentiel pour surveiller les dérives de données à l'aide d'Evidently AI et Grafana. Ce guide vous aidera à configurer un système robuste pour garantir que vos modèles d'apprentissage automatique restent précis et fiables au fil du temps.
 
 ### Vue d'ensemble
 
