@@ -3,6 +3,4 @@
 # airflow webserver --debug &
 
 # Commencer le backfill sur un intervalle de dates:
-airflow dags backfill tutorial \
-    --start-date 2015-06-01 \
-    --end-date 2015-06-07
+airflow dags backfill tutorial --start-date 2015-06-01 --end-date 2015-06-07
