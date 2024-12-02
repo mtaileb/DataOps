@@ -1,0 +1,103 @@
+## **Guide pour exécuter Kibana avec Docker**
+
+### **1. Prérequis**
+- **Docker** : Assurez-vous que Docker est installé et configuré sur votre système.
+- **Image Docker de Kibana** : Kibana est disponible sous forme d’image Docker officielle. Vous pouvez la récupérer depuis [Elastic Docker Registry](https://www.docker.elastic.co/).
+
+---
+
+### **2. Récupération de l’image Docker de Kibana**
+Téléchargez l’image Docker de Kibana en utilisant la commande suivante :
+```bash
+docker pull docker.elastic.co/kibana/kibana:8.10.2
+```
+- Remplacez `8.10.2` par la version souhaitée de Kibana.
+
+---
+
+### **3. Lancer Kibana avec Docker**
+Exécutez Kibana en créant un conteneur Docker :
+```bash
+docker run --name kibana -p 5601:5601 docker.elastic.co/kibana/kibana:8.10.2
+```
+
+#### **Explications :**
+- **`--name kibana`** : Donne un nom au conteneur, ici `kibana`.
+- **`-p 5601:5601`** : Mappe le port 5601 du conteneur (port par défaut de Kibana) au port 5601 de votre hôte.
+- **`docker.elastic.co/kibana/kibana:8.10.2`** : Spécifie l’image Docker de Kibana à utiliser.
+
+---
+
+### **4. Configurer Kibana**
+Vous pouvez personnaliser la configuration de Kibana en passant des options au moment du lancement du conteneur. Par exemple :
+
+```bash
+docker run --name kibana -p 5601:5601 \
+  -e ELASTICSEARCH_HOSTS=http://elasticsearch:9200 \
+  docker.elastic.co/kibana/kibana:8.10.2
+```
+
+### **5. Exécuter Kibana avec Elasticsearch**
+Kibana nécessite une connexion à Elasticsearch. Si Elasticsearch s’exécute également dans Docker, vous pouvez configurer un réseau Docker commun pour permettre la communication entre Kibana et Elasticsearch.
+
+#### **Étape 1 : Créer un réseau Docker**
+```bash
+docker network create elastic
+```
+
+#### **Étape 2 : Lancer Elasticsearch**
+```bash
+docker run --name elasticsearch --net elastic -p 9200:9200 \
+  -e discovery.type=single-node \
+  docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+```
+
+#### **Étape 3 : Lancer Kibana sur le même réseau**
+```bash
+docker run --name kibana --net elastic -p 5601:5601 \
+  -e ELASTICSEARCH_HOSTS=http://elasticsearch:9200 \
+  docker.elastic.co/kibana/kibana:8.10.2
+```
+
+---
+
+### **6. Accéder à Kibana**
+Une fois Kibana démarré, ouvrez un navigateur et accédez à :
+```
+http://localhost:5601
+```
+
+---
+
+### **7. Logs et Débogage**
+Pour consulter les journaux du conteneur Kibana, utilisez la commande :
+```bash
+docker logs kibana
+```
+
+Si Kibana ne démarre pas ou rencontre des problèmes, vérifiez les journaux pour identifier les erreurs.
+
+---
+
+### **8. Arrêter ou Supprimer Kibana**
+- **Arrêter le conteneur :**
+  ```bash
+  docker stop kibana
+  ```
+
+- **Supprimer le conteneur :**
+  ```bash
+  docker rm kibana
+  ```
+
+---
+
+### **9. Mettre à Jour Kibana**
+Pour mettre à jour Kibana :
+1. Téléchargez la nouvelle version de l’image Docker :
+   ```bash
+   docker pull docker.elastic.co/kibana/kibana:<nouvelle_version>
+   ```
+2. Arrêtez et supprimez l’ancien conteneur.
+3. Lancez un nouveau conteneur avec l’image mise à jour.
+
