@@ -1,0 +1,63 @@
+1. **Installer Docker**. Visitez [Get Docker](https://www.docker.com/products/docker-desktop/) pour installer Docker adapté à votre environnement.
+
+2. Si vous utilisez Docker Desktop, assurez-vous d’allouer au moins 4 Go de mémoire. Vous pouvez ajuster la mémoire allouée dans Docker Desktop en allant dans **Paramètres > Ressources**.
+
+3. Créez un nouveau réseau Docker pour Elasticsearch et Kibana :
+   ```bash
+   docker network create elastic
+   ```
+
+4. Téléchargez l’image Docker d’Elasticsearch :
+   ```bash
+   docker pull docker.elastic.co/elasticsearch/elasticsearch:8.16.1
+   ```
+5. Démarrez un conteneur Elasticsearch :
+   ```bash
+   docker run --name es01 --net elastic -p 9200:9200 -it -m 1GB docker.elastic.co/elasticsearch/elasticsearch:8.16.1
+   ```
+   - Utilisez l’option `-m` pour définir une limite de mémoire pour le conteneur, ce qui élimine la nécessité de configurer manuellement la taille de la JVM.
+   - La commande affiche le mot de passe de l’utilisateur `elastic` et un **jeton d’enrôlement** pour Kibana.
+
+6. Copiez le mot de passe `elastic` et le jeton d’enrôlement générés. Ces informations ne sont affichées que lors du premier démarrage d’Elasticsearch. Vous pouvez les régénérer avec les commandes suivantes :
+   ```bash
+   docker exec -it es01 /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic
+   docker exec -it es01 /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
+   ```
+
+7. Téléchargez l’image Docker de Kibana :
+   ```bash
+   docker pull docker.elastic.co/kibana/kibana:8.16.1
+   ```
+8. Démarrez un conteneur Kibana :
+    ```bash
+    docker run --name kib01 --net elastic -p 5601:5601 docker.elastic.co/kibana/kibana:8.16.1
+    ```
+    - Lorsque Kibana démarre, un lien unique est généré et affiché dans le terminal. Ouvrez ce lien dans un navigateur web pour accéder à Kibana.
+    - Entrez le jeton d’enrôlement généré lors du démarrage d’Elasticsearch.
+
+9. Pour régénérer le jeton d’enrôlement de Kibana, exécutez :
+    ```bash
+    docker exec -it es01 /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
+    ```
+
+10. Connectez-vous à Kibana en tant qu’utilisateur `elastic` avec le mot de passe généré lors du démarrage d’Elasticsearch.
+
+11. Pour régénérer le mot de passe, exécutez :
+    ```bash
+    docker exec -it es01 /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic
+    ```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ A la fin de la formation:
+Supprimer les conteneurs Docker:
+Pour supprimer les conteneurs et leur réseau, exécutez :
+
+```bash
+# Supprimer le réseau Elastic
+docker network rm elastic
+
+# Supprimer le conteneur Elasticsearch
+docker rm es01
+
+# Supprimer le conteneur Kibana
+docker rm kib01
+```
