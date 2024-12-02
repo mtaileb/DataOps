@@ -1,0 +1,130 @@
+### **Étape 1 : Créer un index**
+
+Créez un nouvel index nommé `books` :
+
+```http
+PUT /books
+```
+
+Une réponse indiquant que l'index a été créé avec succès devrait ressembler à ceci :
+
+```json
+{
+  "acknowledged": true,
+  "shards_acknowledged": true,
+  "index": "books"
+}
+```
+
+### **Étape 2 : Ajouter des données à votre index**
+
+Dans Elasticsearch, les données sont ajoutées sous forme d'objets JSON appelés documents, stockés dans des indices consultables.
+
+#### **Ajouter un document unique**
+
+Soumettez la requête suivante pour ajouter un document unique à l'index `books` :
+
+```http
+POST /books/_doc
+{
+  "name": "Snow Crash",
+  "author": "Neal Stephenson",
+  "release_date": "1992-06-01",
+  "page_count": 470
+}
+```
+
+La réponse inclut des métadonnées générées par Elasticsearch pour le document, y compris un identifiant unique `_id` pour le document au sein de l'index.
+
+```json
+{
+  "_index": "books",
+  "_id": "O0lG2IsBaSa7VYx_rEia",
+  "_version": 1,
+  "result": "created",
+  "_shards": {
+    "total": 2,
+    "successful": 2,
+    "failed": 0
+  },
+  "_seq_no": 0,
+  "_primary_term": 1
+}
+```
+
+- **`_index`** : l'index auquel le document a été ajouté.
+- **`_id`** : l'identifiant unique du document.
+- **`_version`** : la version du document.
+- **`result`** : le résultat de l'opération d'indexation.
+- **`_shards`** : informations sur le nombre de shards impliqués dans l'opération d'indexation et leur succès ou échec.
+- **`_seq_no`** : numéro séquentiel croissant pour chaque opération d'indexation sur un shard.
+- **`_primary_term`** : numéro croissant à chaque fois qu'un shard primaire est assigné à un nœud différent.
+
+#### **Ajouter plusieurs documents**
+
+Utilisez le point de terminaison `_bulk` pour ajouter plusieurs documents en une seule requête. Les données bulk doivent être formatées en JSON délimité par des sauts de ligne (NDJSON).
+
+```http
+POST /_bulk
+{"index":{"_index":"books"}}
+{"name":"Revelation Space","author":"Alastair Reynolds","release_date":"2000-03-15","page_count":585}
+{"index":{"_index":"books"}}
+{"name":"1984","author":"George Orwell","release_date":"1949-06-08","page_count":328}
+```
+
+Chaque ligne représente une action ou un document. Les lignes paires définissent l'action (par exemple, `index`), et les lignes impaires contiennent le document à indexer.
+
+### **Étape 3 : Rechercher des documents**
+
+Après avoir ajouté des documents, vous pouvez effectuer des recherches simples. Par exemple, pour rechercher tous les documents dans l'index `books` :
+
+```http
+GET /books/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
+
+Cette requête renvoie tous les documents de l'index `books`.
+
+Pour rechercher des livres d'un auteur spécifique :
+
+```http
+GET /books/_search
+{
+  "query": {
+    "match": {
+      "author": "Neal Stephenson"
+    }
+  }
+}
+```
+
+Cette requête renvoie les documents où le champ `author` correspond à "Neal Stephenson".
+
+### **Étape 4 : Mettre à jour un document**
+
+Pour mettre à jour un document existant, utilisez la méthode `POST` avec l'identifiant du document :
+
+```http
+POST /books/_update/sqc0iJMBm5eTZ-4zNCka
+{
+  "doc": {
+    "page_count": 480
+  }
+}
+```
+
+Cette requête met à jour le champ `page_count` du document spécifié.
+
+### **Étape 5 : Supprimer un document**
+
+Pour supprimer un document, utilisez la méthode `DELETE` avec l'identifiant du document :
+
+```http
+DELETE /books/_doc/O0lG2IsBaSa7VYx_rEia
+```
+
+Cette requête supprime le document spécifié de l'index `books`.
