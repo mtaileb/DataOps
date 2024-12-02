@@ -1,19 +1,4 @@
-# **Recherche en texte intégral et filtrage dans Elasticsearch**
-
-Ce TP vous introduit aux bases de la recherche en texte intégral avec Elasticsearch, également connue sous le nom de recherche lexicale, en utilisant l'API `_search` et le DSL de requête. Vous apprendrez également à filtrer les données pour affiner les résultats de recherche en fonction de critères précis.
-
-Dans ce scénario, nous mettons en place une fonction de recherche pour un blog culinaire. Le blog contient des recettes avec divers attributs, y compris du contenu textuel, des données catégorielles et des évaluations numériques.
-
-L'objectif est de créer des requêtes de recherche permettant aux utilisateurs de :
-
-- Trouver des recettes en fonction des ingrédients qu'ils souhaitent utiliser ou éviter
-- Découvrir des plats adaptés à leurs besoins alimentaires
-- Trouver des recettes bien notées dans des catégories spécifiques
-- Trouver des recettes récentes de leurs auteurs préférés
-
-Pour atteindre ces objectifs, nous utiliserons différentes requêtes Elasticsearch pour effectuer des recherches en texte intégral, appliquer des filtres et combiner plusieurs critères de recherche.
-
-## **Étape 1 : Créer un index**
+### Étape 1 : Créer un index
 
 Créez l'index `cooking_blog` pour commencer :
 
@@ -80,113 +65,166 @@ PUT /cooking_blog/_mapping
 }
 ```
 
-Dans cette configuration :
+- L'analyseur standard est utilisé par défaut pour les champs de type texte si aucun autre analyseur n'est spécifié.
+- Les multi-champs permettent d'indexer les champs texte comme `text` et `keyword`. Cela facilite la recherche en texte intégral et les correspondances exactes sur le même champ.
+- Le paramètre `ignore_above` empêche l'indexation des valeurs dépassant 256 caractères dans le champ `keyword`.
 
-- Les champs `title`, `description`, `author`, `category` et `tags` sont de type `text` pour permettre la recherche en texte intégral. Chacun a un sous-champ `keyword` pour les recherches exactes.
-- Le champ `date` est de type `date` avec le format `yyyy-MM-dd`.
-- Le champ `rating` est de type `float` pour stocker les évaluations numériques.
+---
 
-## **Étape 2 : Ajouter des documents**
+### Étape 2 : Ajouter des exemples de publications
 
-Ajoutez des documents représentant des recettes à l'index :
-
-```http
-POST /cooking_blog/_doc/1
-{
-  "title": "Spaghetti Carbonara",
-  "description": "A classic Italian pasta dish with eggs, cheese, pancetta, and pepper.",
-  "author": "John Doe",
-  "date": "2023-01-15",
-  "category": "Pasta",
-  "tags": ["Italian", "Quick", "Dinner"],
-  "rating": 4.5
-}
-```
+Ajoutez des publications de blog avec l'API Bulk :
 
 ```http
-POST /cooking_blog/_doc/2
-{
-  "title": "Vegan Tacos",
-  "description": "Delicious and healthy vegan tacos with black beans and avocado.",
-  "author": "Jane Smith",
-  "date": "2023-02-10",
-  "category": "Mexican",
-  "tags": ["Vegan", "Healthy", "Lunch"],
-  "rating": 4.7
-}
+POST /cooking_blog/_bulk?refresh=wait_for
+{"index":{"_id":"1"}}
+{"title":"Perfect Pancakes: A Fluffy Breakfast Delight","description":"Learn the secrets to making the fluffiest pancakes...","author":"Maria Rodriguez","date":"2023-05-01","category":"Breakfast","tags":["pancakes","breakfast","easy recipes"],"rating":4.8}
+{"index":{"_id":"2"}}
+{"title":"Spicy Thai Green Curry: A Vegetarian Adventure","description":"Dive into the flavors of Thailand with this vibrant green curry...","author":"Liam Chen","date":"2023-05-05","category":"Main Course","tags":["thai","vegetarian","curry","spicy"],"rating":4.6}
+{"index":{"_id":"3"}}
+{"title":"Classic Beef Stroganoff: A Creamy Comfort Food","description":"Indulge in this rich and creamy beef stroganoff...","author":"Emma Watson","date":"2023-05-10","category":"Main Course","tags":["beef","pasta","comfort food"],"rating":4.7}
+{"index":{"_id":"4"}}
+{"title":"Vegan Chocolate Avocado Mousse","description":"Discover the magic of avocado in this rich, vegan chocolate mousse...","author":"Alex Green","date":"2023-05-15","category":"Dessert","tags":["vegan","chocolate","avocado","healthy dessert"],"rating":4.5}
+{"index":{"_id":"5"}}
+{"title":"Crispy Oven-Fried Chicken","description":"Get that perfect crunch without the deep fryer! This oven-fried chicken recipe...","author":"Maria Rodriguez","date":"2023-05-20","category":"Main Course","tags":["chicken","oven-fried","healthy"],"rating":4.9}
 ```
 
-Répétez ce processus pour ajouter plus de recettes avec diverses catégories, tags et évaluations.
+---
 
-## **Étape 3 : Effectuer une recherche en texte intégral**
+### Étape 3 : Effectuer des recherches basiques
 
-Pour rechercher des recettes contenant le mot "pasta" dans le titre :
+Recherchez des recettes contenant "fluffy pancakes" dans la description :
 
 ```http
 GET /cooking_blog/_search
 {
   "query": {
     "match": {
-      "title": "pasta"
-    }
-  }
-}
-```
-
-Cette requête renvoie les recettes dont le titre correspond au terme "pasta".
-
-## **Étape 4 : Appliquer des filtres aux résultats de recherche**
-
-Pour trouver des recettes végétaliennes (tag "Vegan") avec une note supérieure à 4 (greater than 4) :
-
-```http
-GET /cooking_blog/_search
-{
-  "query": {
-    "bool": {
-      "must": {
-        "match": {
-          "tags": "Vegan"
-        }
-      },
-      "filter": {
-        "range": {
-          "rating": {
-            "gt": 4
-          }
-        }
+      "description": {
+        "query": "fluffy pancakes"
       }
     }
   }
 }
 ```
 
-Cette requête combine une recherche en texte intégral avec un filtre numérique pour affiner les résultats.
+Par défaut, la logique OR est utilisée. Cela signifie que les documents contenant "fluffy" ou "pancakes" seront correspondants.
 
-## **Étape 5 : Combiner plusieurs critères de recherche**
+---
 
-Pour rechercher des recettes de l'auteur "Jane Smith" publiées après le 1er janvier 2023 :
+### Étape 4 : Rechercher sur plusieurs champs
+
+Recherchez "vegetarian curry" dans plusieurs champs à la fois :
+
+```http
+GET /cooking_blog/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "vegetarian curry",
+      "fields": ["title", "description", "tags"]
+    }
+  }
+}
+```
+
+Ajustez l'importance des champs avec des boosts :
+
+```http
+GET /cooking_blog/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "vegetarian curry",
+      "fields": ["title^3", "description^2", "tags"]
+    }
+  }
+}
+```
+
+---
+
+### Étape 5 : Filtrer et trouver des correspondances exactes
+
+Filtrez les résultats pour n'inclure que les publications dans la catégorie "Breakfast" :
 
 ```http
 GET /cooking_blog/_search
 {
   "query": {
     "bool": {
-      "must": {
-        "match": {
-          "author": "Jane Smith"
-        }
-      },
-      "filter": {
-        "range": {
-          "date": {
-            "gt": "2023-01-01"
-          }
-        }
+      "filter": [
+        { "term": { "category.keyword": "Breakfast" } }
+      ]
+    }
+  }
+}
+```
+
+Recherchez des articles dans une plage de dates :
+
+```http
+GET /cooking_blog/_search
+{
+  "query": {
+    "range": {
+      "date": {
+        "gte": "2023-05-01",
+        "lte": "2023-05-31"
       }
     }
   }
 }
 ```
 
-Cette requête renvoie les recettes de "Jane Smith" publiées après le 1er janvier 2023. 
+---
+
+### Étape 6 : Combiner plusieurs critères
+
+Recherchez des recettes végétariennes avec des critères supplémentaires :
+
+- Doit être végétarien.
+- Devrait contenir "curry" ou "spicy" dans le titre ou la description.
+- Devrait être un plat principal.
+- Ne doit pas être un dessert.
+- Doit avoir une note d'au moins 4.5.
+- Préférer les recettes publiées le mois dernier.
+
+```http
+GET /cooking_blog/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "term": { "tags": "vegetarian" } },
+        {
+          "range": {
+            "rating": {
+              "gte": 4.5
+            }
+          }
+        }
+      ],
+      "should": [
+        { "term": { "category": "Main Course" } },
+        {
+          "multi_match": {
+            "query": "curry spicy",
+            "fields": ["title^2", "description"]
+          }
+        },
+        {
+          "range": {
+            "date": {
+              "gte": "now-1M/d"
+            }
+          }
+        }
+      ],
+      "must_not": [
+        { "term": { "category.keyword": "Dessert" } }
+      ]
+    }
+  }
+}
+```
