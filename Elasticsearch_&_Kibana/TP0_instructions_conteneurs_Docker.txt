@@ -1,6 +1,6 @@
 1. **Installer Docker**. Visitez [Get Docker](https://www.docker.com/products/docker-desktop/) pour installer Docker adapté à votre environnement.
 
-2. Si vous utilisez Docker Desktop, assurez-vous d’allouer au moins 4 Go de mémoire. Vous pouvez ajuster la mémoire allouée dans Docker Desktop en allant dans **Paramètres > Ressources**.
+2. Si vous êtes dans Windows, lancez Docker Desktop avant de taper les commandes suivantes.
 
 3. Créez un nouveau réseau Docker pour Elasticsearch et Kibana :
    ```bash
