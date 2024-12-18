@@ -1,0 +1,4 @@
+CustomerID,Name,Email,LoyaltyPoints,SignupDate
+C001,Alice Smith,alice@email.com,150,2023-01-15
+C002,Bob Johnson,bob.johnson@email.com,300,2022-06-12
+C003,Clara Davis,clara@email.com,50,2023-11-20
