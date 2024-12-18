@@ -1,0 +1,4 @@
+EmployeeID,Name,StoreID,Role,LastLogin
+E001,Sarah Brown,S001,Store Manager,2023-12-01 08:45:00
+E002,James Green,S002,Cashier,2023-12-01 08:50:00
+E003,Michael White,S003,Inventory Clerk,2023-12-01 09:10:00
