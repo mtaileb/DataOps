@@ -89,5 +89,10 @@ with DAG('retail_data_pipeline',
 
     start >> stock_sync >> sales_report
 ```
-
 ---
+
+Quelques fonctions Python utiles:
+* Charger et transformer les données (read_csv, concat, merge).
+* Nettoyer les données (drop_duplicates, fillna, apply).
+* Calculer des métriques (groupby, pivot_table, nlargest).
+* Générer des rapports (to_csv, to_excel, plot)
