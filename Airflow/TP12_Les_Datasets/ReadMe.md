@@ -110,6 +110,7 @@ with DAG(
 
 Exemple de création initiale d'un CSV dans le cadre d'une tâche producer:
 
+```python
 import os
 
 def create_csv_file():
@@ -122,3 +123,4 @@ def create_csv_file():
         print(f"CSV file created at {file_path}")
     else:
         print(f"CSV file already exists at {file_path}")
+```
