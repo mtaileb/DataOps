@@ -10,6 +10,7 @@ my_dataset = Dataset('/path/to/data.csv')  # Représente un fichier ou une resso
 #### **2. DAG Producer**
 Un DAG "producer" met à jour un Dataset, signalant aux DAGs consommateurs qu'une nouvelle version des données est disponible.
 
+
 ```python
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
@@ -53,6 +54,18 @@ with DAG(
         task_id='consume_data',
     )
 ```
+
+---
+
+### **Résumé des Différences entre DAG Producer et Consumer**
+
+| **Aspect**                 | **DAG Producer**                                | **DAG Consumer**                                |
+|-----------------------------|------------------------------------------------|------------------------------------------------|
+| **Interaction avec le Dataset** | Produit ou met à jour un Dataset (via `outlets`) | Consomme un Dataset mis à jour (via `schedule`) |
+| **Paramètre clé**           | `outlets=[Dataset(...)]`                       | `schedule=[Dataset(...)]`                      |
+| **Déclenchement**           | S'exécute selon son propre planning (ex. `@daily`) | Déclenché automatiquement lorsqu'un Dataset est mis à jour |
+| **Rôle**                   | Informe qu'un Dataset est prêt ou a été mis à jour | Attend qu'un Dataset soit disponible pour démarrer |
+| **Relation**                | Produit un Dataset pour un ou plusieurs Consumers | Dépend d'un ou plusieurs Producers via le Dataset |
 
 ---
 
