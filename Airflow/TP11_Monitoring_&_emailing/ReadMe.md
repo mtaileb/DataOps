@@ -56,7 +56,8 @@ import random
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'email_on_failure': ['votreadresse@gmail.com'],  # Email en cas d'échec
+    'email_on_failure': True,
+    'email': ['votreadresse@gmail.com'],  # Email en cas d'échec
     'email_on_retry': False,
     'retries': 1,
 }
