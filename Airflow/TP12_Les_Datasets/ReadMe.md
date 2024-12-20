@@ -30,7 +30,7 @@ with DAG(
 
     produce_task = DummyOperator(
         task_id='produce_data',
-        outlets=[my_dataset],  # Indique que ce Dataset est mis à jour
+        outlets=[my_dataset],  # Indique que ce Dataset est mis à jour, et donc ce DAG est Producer
     )
 ```
 
