@@ -15,7 +15,7 @@ default_args = {
 # Fonction pour lister les fichiers dans le bucket GCS
 def list_gcs_files(bucket_name, prefix):
     # Définir la variable d'environnement pour les credentials
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Variable.get("GOOGLE_APPLICATION_CREDENTIALS")
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Variable.get("GOOGLE_APPLICATION_CREDENTIALS")
     
     # Création d'une instance de GCSHook pour se connecter à GCS
     gcs_hook = GCSHook(gcp_conn_id='my_gcs')  # Connexion à configurer dans Airflow
