@@ -1,5 +1,6 @@
 #### **1. Création d’un Dataset**
 Un Dataset est défini avec le chemin ou la ressource qu’il représente.
+Nota: le code ci-dessous doit être placé à un emplacement commun accessible par tous les DAGs qui interagissent avec ce Dataset (les DAGs producers et consumers): soit le mettre dans un fichier my_datasets et l'importer dans les DAGs avec from datasets import my_dataset; ou alors le déclarer dirctement dans chaque DAG après les imports. Cela garantit que le même objet Dataset est utilisé pour établir la relation entre les DAGs.
 
 ```python
 from airflow.datasets import Dataset
