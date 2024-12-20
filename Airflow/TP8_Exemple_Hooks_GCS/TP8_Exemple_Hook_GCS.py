@@ -18,7 +18,7 @@ def list_gcs_files(bucket_name, prefix):
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = Variable.get("GOOGLE_APPLICATION_CREDENTIALS")
     
     # Création d'une instance de GCSHook pour se connecter à GCS
-    gcs_hook = GCSHook(google_cloud_storage_conn_id='my_gcs')  # Connexion à configurer dans Airflow
+    gcs_hook = GCSHook(gcp_conn_id='my_gcs')  # Connexion à configurer dans Airflow
     # Lister les fichiers dans le bucket
     files = gcs_hook.list(bucket_name, prefix=prefix)    
     # Afficher les fichiers dans les journaux
@@ -28,7 +28,7 @@ def list_gcs_files(bucket_name, prefix):
 # Fonction pour télécharger un fichier spécifique
 def download_gcs_file(bucket_name, object_name, local_path):
     # Création d'une instance de GCSHook pour se connecter à GCS
-    gcs_hook = GCSHook(google_cloud_storage_conn_id='my_gcs')  # Connexion à configurer dans Airflow
+    gcs_hook = GCSHook(gcp_conn_id='my_gcs')  # Connexion à configurer dans Airflow
     # Télécharger le fichier
     gcs_hook.download(bucket_name, object_name, local_path)
     # Afficher un message confirmant le téléchargement
