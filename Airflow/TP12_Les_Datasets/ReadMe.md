@@ -107,3 +107,18 @@ with DAG(
    ```
 
 ---
+
+Exemple de création initiale d'un CSV dans le cadre d'une tâche producer:
+
+import os
+
+def create_csv_file():
+    file_path = '/path/to/my_dataset.csv'
+    # Check if the file exists
+    if not os.path.exists(file_path):
+        # Create the file and write a header
+        with open(file_path, 'w') as f:
+            f.write("id,name,age\n")
+        print(f"CSV file created at {file_path}")
+    else:
+        print(f"CSV file already exists at {file_path}")
