@@ -33,12 +33,12 @@ Voici un exemple de référentiel pour les termes ou mots-clés à utiliser dans
 
 ### Exemple d'application
 1. **DAG pour l'ingestion quotidienne des données utilisateurs dans un projet marketing**  
-   Nom : `daily_user_ingestion_marketing_v1`
+   Nom : `ingestion_marketing_utilisateurx_quotidien_v1`
 
 2. **DAG pour une sauvegarde mensuelle des logs système à destination d'un cluster S3**  
-   Nom : `monthly_logs_backup_s3_v2`
+   Nom : `backup_logs_mensuel_s3_v2`
 
 3. **DAG pour un rapport hebdomadaire des ventes en Europe**  
-   Nom : `weekly_sales_report_eu`
+   Nom : `rapport_ventes_ue_hebdo`
 
 Ce référentiel peut être partagé sous forme de documentation interne pour guider les équipes dans la création de noms standardisés et facilement filtrables.
