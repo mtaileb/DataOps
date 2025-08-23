@@ -10,7 +10,7 @@ docker run -p 5000:5000 -v $(pwd)/mlruns:/mlflow/mlruns ghcr.io/mlflow/mlflow ml
    --default-artifact-root /mlflow/mlruns
 
 # Sous Windows:
-docker run -p 5000:5000 -v C:/Users/Toto/mlruns:/mlflow/mlruns ghcr.io/mlflow/mlflow mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/mlruns
+docker run -p 5000:5000 -v C:/Users/Toto/mlruns:/mlflow/mlruns ghcr.io/mlflow/mlflow mlflow server --host 0.0.0.0 --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/mlruns
 
 # Serving:
 docker run -p 5001:5001 \
