@@ -57,3 +57,8 @@ echo "sudo systemctl status docker  # Statut du service Docker"
 echo "docker info                   # Informations Docker"
 echo "docker ps                     # Conteneurs en cours d'exécution"
 
+# Téléchargement image de Airflow v2.10.3 (compatible avec code fourni):
+docker pull apache/airflow:2.10.3
+# Lancement conteneur Airflow v2.10.3 (compatible avec code fourni):
+# Le cas échéant, penser à adapter le Yaml pour qu'il utilise l'image d'Airflow souhaitée
+docker compose -f "docker-compose.yml" up -d --build
