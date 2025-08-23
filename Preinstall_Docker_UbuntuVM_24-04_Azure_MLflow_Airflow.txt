@@ -1,0 +1,59 @@
+# Mise à jour des paquets système
+sudo apt update && sudo apt upgrade -y
+
+# Installation des dépendances requises
+sudo apt install -y ca-certificates curl gnupg lsb-release
+
+# Ajout de la clé GPG officielle de Docker
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Ajout du dépôt Docker
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Installation de Docker Engine
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin
+
+# Démarrage et activation du service Docker
+sudo systemctl enable docker
+sudo systemctl start docker
+
+# Vérification de l'installation Docker
+sudo docker version
+sudo docker run hello-world
+
+# Installation du plugin Docker Compose
+sudo apt install -y docker-compose-plugin
+
+# Vérification de Docker Compose
+docker compose version
+
+# Configuration de l'accès utilisateur non-root (Optionnel mais recommandé)
+sudo usermod -aG docker $USER
+
+# Vérification finale de l'installation
+docker --version
+docker compose version
+
+# Test de Docker Compose
+mkdir test-docker && cd test-docker
+echo 'version: "3.8"
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"' > docker-compose.yml
+docker compose up -d
+docker compose ps
+docker compose down
+cd ..
+rm -rf test-docker
+
+# Commandes supplémentaires utiles
+echo "Installation terminée ! Commandes utiles :"
+echo "sudo systemctl status docker  # Statut du service Docker"
+echo "docker info                   # Informations Docker"
+echo "docker ps                     # Conteneurs en cours d'exécution"
+
