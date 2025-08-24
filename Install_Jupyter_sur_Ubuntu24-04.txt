@@ -1,0 +1,85 @@
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Python and pip
+sudo apt install python3 python3-pip python3-venv -y
+
+# Create a virtual environment (recommended)
+python3 -m venv jupyter-env
+source jupyter-env/bin/activate
+
+# Install Jupyter Lab
+pip install jupyterlab
+
+# Or install classic Jupyter Notebook
+pip install notebook
+
+# Generate default config
+jupyter notebook --generate-config
+
+# Or for Jupyter Lab
+jupyter lab --generate-config
+
+# Create a secure password
+python3 -c "from jupyter_server.auth import passwd; print(passwd())"
+
+# Configure Jupyter for remote access
+nano ~/.jupyter/jupyter_notebook_config.py
+
+# DEBUT DE FICHIER
+# Add these configurations to the file:
+# Allow external access
+c.ServerApp.ip = '0.0.0.0'
+c.ServerApp.allow_remote_access = True
+# Set the port (default: 8888)
+c.ServerApp.port = 8888
+# Disable browser opening
+c.ServerApp.open_browser = False
+# Set the hashed password
+c.ServerApp.password = 'argon2:...your_hashed_password...'
+# Allow iframe embedding (optional)
+c.ServerApp.allow_origin = '*'
+# Set base URL if behind reverse proxy (optional)
+# c.ServerApp.base_url = '/jupyter/'
+# Set notebook directory
+c.ServerApp.notebook_dir = '/home/your_username/notebooks'
+# FIN DE FICHIER
+
+# Create notebooks folder
+mkdir ~/notebooks
+
+# Set up as a system service (recommended)
+# Create a service file:
+sudo nano /etc/systemd/system/jupyter.service
+# Add this content (adjust paths as needed):
+# DEBUT DE FICHIER
+[Unit]
+Description=Jupyter Notebook Server
+After=network.target
+
+[Service]
+Type=simple
+User=your_username
+Group=your_username
+WorkingDirectory=/home/your_username/notebooks
+Environment="PATH=/home/your_username/jupyter-env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/home/your_username/jupyter-env/bin/jupyter lab --config=/home/your_username/.jupyter/jupyter_notebook_config.py
+
+[Install]
+WantedBy=multi-user.target
+# FIN DE FICHIER
+
+# Start and enable the service:
+# Reload systemd
+sudo systemctl daemon-reload
+# Start Jupyter service
+sudo systemctl start jupyter
+# Enable auto-start on boot
+sudo systemctl enable jupyter
+# Check status
+sudo systemctl status jupyter
+
+# # Allow port 8888 through firewall (in Azure, create inbound rule)
+sudo ufw allow 8888
+sudo ufw enable
+
