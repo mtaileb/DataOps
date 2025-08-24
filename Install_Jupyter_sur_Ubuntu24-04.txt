@@ -83,3 +83,15 @@ sudo systemctl status jupyter
 sudo ufw allow 8888
 sudo ufw enable
 
+# Install MLflow in the Jupyter environement:
+# If not already in the environement): source ~/jupyter-env/bin/activate
+pip install mlflow
+
+# For scikit-learn support
+pip install mlflow[extras]
+
+# For specific ML frameworks
+pip install mlflow sklearn xgboost
+
+# Or complete installation
+pip install mlflow[complete]
