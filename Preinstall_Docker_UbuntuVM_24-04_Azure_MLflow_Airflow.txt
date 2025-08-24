@@ -206,5 +206,5 @@ docker compose up -d
 # Check MLflow container logs
 docker logs mlflow-server
 
-# Test connection from Jupyter
+# Test connection from Jupyter (EXPECTED RESULT: None)
 python -c "import mlflow; mlflow.set_tracking_uri('http://localhost:5000'); print(mlflow.get_experiment_by_name('my-experiment'))"
