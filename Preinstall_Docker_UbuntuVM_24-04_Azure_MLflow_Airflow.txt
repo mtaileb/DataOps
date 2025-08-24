@@ -62,3 +62,6 @@ docker pull apache/airflow:2.10.3
 # Lancement conteneur Airflow v2.10.3 (compatible avec code fourni):
 # Le cas échéant, penser à adapter le Yaml pour qu'il utilise l'image d'Airflow souhaitée
 docker compose -f "docker-compose.yml" up -d --build
+
+# Le mot-de-passe admin devrait se trouver dans airflow/standalone_admin_password.txt; sinon, il est possible de le réinitialiser avec:
+docker exec -it [ID du conteneur] airflow users reset-password     --username admin     --password [mot-de-passe]
