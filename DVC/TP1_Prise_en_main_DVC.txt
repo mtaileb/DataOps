@@ -1,13 +1,14 @@
 - Ouvrez un terminal
-- Créez le dossier TP1_DVC
+- Créez et entrez dans le dossier TP1_DVC
 mkdir TP1_DVC
+cd TP1_DVC
 - Tapez 'git init' puis 'dvc init'
 - Créez le répertoire data avec : 
 mkdir data
 - Récupérez le dataset avec:
 dvc get https://github.com/mtaileb/DataOps DVC/titanic.csv -o data/titanic.csv
 - Vérifions la présence du fichier : 
-dir data
+ls data
 - Ajoutons le tracking de ce dataset avec DVC : 
 dvc add data/titanic.csv
 - Ajoutons le tracking git des deux fichiers créés suite à la commande précédente : 
@@ -21,17 +22,45 @@ git commit -m "Add raw data"
 git tag -a "v1" -m "Version originale"
 - Voyons le contenu du fichier :
 notepad data/titanic.csv.dvc
+
+Dans GCP:
 - Ensuite aller dans votre compte GCP, et créer un bucket et dossier 'data'
 - Configurer votre bucket en accès public: aller dans 'Permissions' -> ajouter le rôle 'Storage Object User' pour le principal 'allUsers' -> Enregistrer
 - Retourner dans la CLI et lancer la commande suivante, qui va ajouter un stockage par défaut (option -d) à DVC (remplacer l'ID par le vôtre):
 dvc remote add -d myremote gs://<mybucket>/<path>
+
+Dans Azure:
+# Équivalent: Créer un container Azure au lieu d'un bucket GCP
+az storage container create --name "votre-container" --account-name "votrecommptestorage"
+# Activer le stockage public au niveau du comptde de stockage
+# Activer l'accès public aux blobs
+az storage account update \
+    --name csb10032005097706b0 \
+    --allow-blob-public-access true
+# Équivalent: Configurer l'accès public
+az storage container set-permission --name "votre-container" --public-access blob --account-name "votrecommptestorage"
+# Équivalent de la commande DVC pour Azure
+dvc remote add -d myremote azure://votre-container/data
+
 - Réalisons un git commit pour prendre en compte l'ajout du stockage distant dans le fichier de configuration de DVC:
 git commit .dvc/config -m "Ajout stockage distant"
-- Sachant que notre dataset sera sur GCP, et que notre projet (hormis le dataset) sera sur git, comment faire le lien entre les deux? I.e. comment, à partir du git, savoir où se trouve le dataset? La réponse est dans le fichier titanic.csv.dvc (qui se trouve dans le dossier 'data'), qui conserve cette information sur où le dataset est stocké, et que nous avons donc besoin de synchroniser sur le git. Par contre, avant de synchroniser le git avec le dépot distant, vérifions qu'ilne va pas synchroniser aussi le dataset, en vérifiant que celui-ci est bien mentionné dans le .gitignore:
+- Sachant que notre dataset sera sur GCP (ou Azure), et que notre projet (hormis le dataset) sera sur git, comment faire le lien entre les deux? I.e. comment, à partir du git, savoir où se trouve le dataset? La réponse est dans le fichier titanic.csv.dvc (qui se trouve dans le dossier 'data'), qui conserve cette information sur où le dataset est stocké, et que nous avons donc besoin de synchroniser sur le git. Par contre, avant de synchroniser le git avec le dépot distant, vérifions qu'il ne va pas synchroniser aussi le dataset, en vérifiant que celui-ci est bien mentionné dans le .gitignore:
 notepad data/.gitignore
 - On devrait y voir /titanic.csv
 ls -lh data
 - Maintenant que le stockage de data distant est configuré, réalisons un push (avec DVC!) du dataset pour l'y déposer: 
+# Sur GCP:
+dvc push
+# Sur Azure:
+pip install dvc-azure
+# Récupérer le connexion string dans le Cloud Shell:
+CONN_STR=$(az storage account show-connection-string \
+    --name "votrecommptestorage" \
+    --output tsv)
+echo "$CONN_STR"
+# Ajouter cette connexion string à DVC:
+dvc remote modify myremote connection_string "$CONN_STR"
+# Maintenant nous pouvons faire le push:
 dvc push
 
 GERER PLUSSIEURS VERSIONS DU DATASET:
