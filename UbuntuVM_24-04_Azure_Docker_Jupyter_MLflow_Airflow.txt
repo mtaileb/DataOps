@@ -60,7 +60,6 @@ echo "docker info                   # Informations Docker"
 echo "docker ps                     # Conteneurs en cours d'exécution"
 
 
-
 # INSTALLATION DE AIRFLOW (IMAGE DOCKER):
 # Téléchargement image de Airflow v2.10.3 (compatible avec code fourni):
 docker pull apache/airflow:2.10.3
@@ -120,7 +119,7 @@ c.ServerApp.allow_origin = '*'
 c.ServerApp.notebook_dir = '/home/your_username/mlflow/notebooks' # ATTENTION A BIEN METTRE CE CHEMIN POUR AVOIR LE TRACKING DANS MLFLOW
 # FIN DE FICHIER
 
-# Create notebooks folder
+# Create notebooks folder inside the mlflow folder so MLflow can access the notebooks
 mkdir ~/notebooks
 
 # Set up as a system service (recommended)
@@ -172,39 +171,15 @@ pip install mlflow sklearn xgboost
 pip install mlflow[complete]
 
 
-# INSTALLATION DE MLFLOW (IMAGE DOCKER):
-# Create directory structure
-mkdir -p ~/mlflow/{mlruns,artifacts,notebooks}
-cp -r ~/notebooks/* ~/mlflow/notebooks/  # Copy your existing notebooks
+# INSTALLATION DE MLFLOW:
+# Activer l'environnement virtuel si ce n'est déjà fait
+source ~/jupyter-env/bin/activate
+# Installation
+pip install mlflow mlflow[extras] mlflow[mlserver]
+#Vérification
+mlflow --version
 
-# Run MLflow Docker container in Docker Compose with the proper mounts
-# Create docker-compose.yml:
-version: '3'
-services:
-  mlflow:
-    image: ghcr.io/mlflow/mlflow:latest
-    container_name: mlflow-server
-    ports:
-      - "5000:5000"
-    volumes:
-      - ~/mlflow/mlruns:/mlflow/mlruns
-      - ~/mlflow/artifacts:/mlflow/artifacts
-      - ~/mlflow/notebooks:/mlflow/notebooks
-    environment:
-      - MLFLOW_TRACKING_URI=http://localhost:5000
-    command: >
-      mlflow server
-      --host 0.0.0.0
-      --port 5000
-      --backend-store-uri sqlite:////mlflow/mlruns/mlflow.db
-      --default-artifact-root /mlflow/artifacts
-
-# Run de Yaml:
-docker compose up -d
-
-# Verification
-# Check MLflow container logs
-docker logs mlflow-server
-
-# Test connection from Jupyter (EXPECTED RESULT: None)
-python -c "import mlflow; mlflow.set_tracking_uri('http://localhost:5000'); print(mlflow.get_experiment_by_name('my-experiment'))"
+# Lancement du tracking server
+mlflow ui --host 0.0.0.0 --port 5000
+# Vérification de la connexion de MLflow avec Python
+python3 -c "import mlflow; print('MLflow version:', mlflow.__version__)"
