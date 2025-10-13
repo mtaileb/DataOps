@@ -59,6 +59,7 @@ CONN_STR=$(az storage account show-connection-string \
     --output tsv)
 # Ensuite:
 echo "$CONN_STR"
+# La chaine de connexnio CONN_STR peut aussi être récuprée via l'interface web Azure dans votre Compte de stockage -> Clés d'accès -> copier une des deux Chaines de connexion
 # Ajouter cette connexion string à DVC:
 dvc remote modify myremote connection_string "$CONN_STR"
 # Maintenant nous pouvons faire le push:
