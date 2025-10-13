@@ -40,7 +40,7 @@ az storage account update \
 # Équivalent: Configurer l'accès public
 az storage container set-permission --name "votre-container" --public-access blob --account-name "votrecommptestorage"
 # Équivalent de la commande DVC pour Azure
-dvc remote add -d myremote azure://votre-container/data
+dvc remote add -d myremote azure://<url_de_votre_compte_de_stockage_sans_le_https>
 
 - Réalisons un git commit pour prendre en compte l'ajout du stockage distant dans le fichier de configuration de DVC:
 git commit .dvc/config -m "Ajout stockage distant"
@@ -57,6 +57,7 @@ pip install dvc-azure
 CONN_STR=$(az storage account show-connection-string \
     --name "votrecommptestorage" \
     --output tsv)
+# Ensuite:
 echo "$CONN_STR"
 # Ajouter cette connexion string à DVC:
 dvc remote modify myremote connection_string "$CONN_STR"
