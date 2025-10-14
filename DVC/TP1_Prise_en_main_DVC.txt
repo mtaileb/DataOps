@@ -40,7 +40,8 @@ az storage account update \
 # Équivalent: Configurer l'accès public
 az storage container set-permission --name "votre-container" --public-access blob --account-name "votrecommptestorage"
 # Équivalent de la commande DVC pour Azure
-dvc remote add -d myremote azure://<url_de_votre_compte_de_stockage_sans_le_https>
+dvc remote add -d myremote azure://<nom-de-votre-conteneur>
+Output: Setting 'myremote' as a default remote.
 
 - Réalisons un git commit pour prendre en compte l'ajout du stockage distant dans le fichier de configuration de DVC:
 git commit .dvc/config -m "Ajout stockage distant"
@@ -52,8 +53,6 @@ ls -lh data
 # Sur GCP:
 dvc push
 # Sur Azure:
-administrateur@S109-05:~/TP1_DVC$ dvc remote add -d myremote azure://<nom-de-votre-conteneur>
-Setting 'myremote' as a default remote.
 administrateur@S109-05:~/TP1_DVC$ dvc remote modify myremote account_name '<nom-de-votre-compte-de-stockage>'
 administrateur@S109-05:~/TP1_DVC$ dvc remote modify --local myremote  connection_string 'DefaultEndpointsProtocol=https;AccountName=<nom-de-votre-compte-de-stockage>;AccountKey=<votre-clé-de-compte-de-stockage>;EndpointSuffix=core.windows.net'
 administrateur@S109-05:~/TP1_DVC$ dvc remote modify --local myremote sas_token '<clé-d'accès-partagé-de-votre-conteneur>'
