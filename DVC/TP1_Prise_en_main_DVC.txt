@@ -52,18 +52,15 @@ ls -lh data
 # Sur GCP:
 dvc push
 # Sur Azure:
-pip install dvc-azure
-# Récupérer le connexion string dans le Cloud Shell:
-CONN_STR=$(az storage account show-connection-string \
-    --name "votrecommptestorage" \
-    --output tsv)
-# Ensuite:
-echo "$CONN_STR"
-# La chaine de connexnio CONN_STR peut aussi être récuprée via l'interface web Azure dans votre Compte de stockage -> Clés d'accès -> copier une des deux Chaines de connexion
-# Ajouter cette connexion string à DVC:
-dvc remote modify myremote connection_string "$CONN_STR"
-# Maintenant nous pouvons faire le push:
-dvc push
+administrateur@S109-05:~/TP1_DVC$ dvc remote add -d myremote azure://<nom-de-votre-conteneur>
+Setting 'myremote' as a default remote.
+administrateur@S109-05:~/TP1_DVC$ dvc remote modify myremote account_name '<nom-de-votre-compte-de-stockage>'
+administrateur@S109-05:~/TP1_DVC$ dvc remote modify --local myremote  connection_string 'DefaultEndpointsProtocol=https;AccountName=<nom-de-votre-compte-de-stockage>;AccountKey=<votre-clé-de-compte-de-stockage>;EndpointSuffix=core.windows.net'
+administrateur@S109-05:~/TP1_DVC$ dvc remote modify --local myremote sas_token '<clé-d'accès-partagé-de-votre-conteneur>'
+administrateur@S109-05:~/TP1_DVC$ dvc push
+Collecting                                                                            |1.00 [00:00,  243entry/s]
+Pushing
+1 file pushed  
 
 GERER PLUSSIEURS VERSIONS DU DATASET:
 - Modifions le jeu de données titanic.csv en local (par exemple en doublant sa taille, en copiant-collant toutes les lignes):
