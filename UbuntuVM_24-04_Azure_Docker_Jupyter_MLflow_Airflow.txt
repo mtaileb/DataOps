@@ -163,7 +163,8 @@ sudo ufw enable
 
 # INSTALLATION DE MLFLOW:
 # Install MLflow in the Jupyter environement:
-# If not already in the environement): source ~/jupyter-env/bin/activate
+# If not already in the environement:
+source ~/jupyter-env/bin/activate
 pip install mlflow
 
 # For scikit-learn support
@@ -177,8 +178,6 @@ pip install mlflow[complete]
 
 # Activer l'environnement virtuel si ce n'est déjà fait
 source ~/jupyter-env/bin/activate
-# Installation
-pip install mlflow mlflow[extras] mlflow[mlserver]
 #Vérification
 mlflow --version
 
