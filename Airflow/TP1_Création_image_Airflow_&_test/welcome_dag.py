@@ -34,7 +34,7 @@ dag = DAG(
 
 print_welcome_task = PythonOperator(
 
-    task_id='TP1_print_welcome',
+    task_id='print_welcome',
 
     python_callable=print_welcome,
 
@@ -57,3 +57,4 @@ print_date_task = PythonOperator(
 # Set the dependencies between the tasks
 
 print_welcome_task >> print_date_task 
+
