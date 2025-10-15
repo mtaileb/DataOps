@@ -86,7 +86,7 @@ python3 -m venv jupyter-env
 source jupyter-env/bin/activate
 
 # Optionnel: install Jupyter Lab
-# pip install jupyterlab
+pip install jupyterlab
 
 # Install classic Jupyter Notebook
 pip install notebook
