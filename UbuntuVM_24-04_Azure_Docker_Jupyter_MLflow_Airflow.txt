@@ -85,10 +85,10 @@ sudo apt install python3 python3-pip python3-venv -y
 python3 -m venv jupyter-env
 source jupyter-env/bin/activate
 
-# Install Jupyter Lab
-pip install jupyterlab
+# Optionnel: install Jupyter Lab
+# pip install jupyterlab
 
-# Or install classic Jupyter Notebook
+# Install classic Jupyter Notebook
 pip install notebook
 
 # Generate default config
@@ -119,7 +119,7 @@ c.ServerApp.allow_origin = '*'
 # Set base URL if behind reverse proxy (optional)
 # c.ServerApp.base_url = '/jupyter/'
 # Set notebook directory
-c.ServerApp.notebook_dir = '/home/your_username/mlflow/notebooks' # ATTENTION A BIEN METTRE CE CHEMIN POUR AVOIR LE TRACKING DANS MLFLOW
+c.ServerApp.notebook_dir = '/home/<YOUR_USERNAME>/mlflow/notebooks' # ATTENTION A BIEN METTRE CE CHEMIN POUR AVOIR LE TRACKING DANS MLFLOW
 # FIN DE FICHIER
 
 # Create notebooks folder inside the mlflow folder so MLflow can access the notebooks
@@ -136,11 +136,11 @@ After=network.target
 
 [Service]
 Type=simple
-User=your_username
-Group=your_username
-WorkingDirectory=/home/your_username/notebooks
-Environment="PATH=/home/your_username/jupyter-env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-ExecStart=/home/your_username/jupyter-env/bin/jupyter lab --config=/home/your_username/.jupyter/jupyter_notebook_config.py
+User=<YOUR_USERNAME>
+Group=<YOUR_USERNAME>
+WorkingDirectory=/home/<YOUR_USERNAME>/mlflow/notebooks
+Environment="PATH=/home/<YOUR_USERNAME>/jupyter-env/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/home/<YOUR_USERNAME>/jupyter-env/bin/jupyter lab --config=/home/<YOUR_USERNAME>/.jupyter/jupyter_notebook_config.py
 
 [Install]
 WantedBy=multi-user.target
