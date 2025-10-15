@@ -170,7 +170,7 @@ pip install mlflow
 pip install mlflow[extras]
 
 # For specific ML frameworks
-pip install mlflow sklearn xgboost
+pip install mlflow scikitlearn xgboost
 
 # Or complete installation
 pip install mlflow[complete]
