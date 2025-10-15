@@ -68,6 +68,8 @@ docker pull apache/airflow:2.10.3
 docker compose -f "docker-compose.yml" up -d --build
 
 # Le mot-de-passe admin devrait se trouver dans airflow/standalone_admin_password.txt; sinon, il est possible de le réinitialiser avec:
+# Donnons au conteneur Airflow le droit d'écrire dans le répertoire local Airflow
+sudo chmod 777 airflow
 docker exec -it [ID du conteneur] airflow users reset-password     --username admin     --password [mot-de-passe]
 
 
