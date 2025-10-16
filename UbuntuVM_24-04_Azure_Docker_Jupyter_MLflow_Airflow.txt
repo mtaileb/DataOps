@@ -33,6 +33,7 @@ sudo apt install -y docker-compose-plugin
 docker compose version
 
 # Configuration de l'accès utilisateur non-root (Optionnel mais recommandé)
+sudo groupadd docker
 sudo usermod -aG docker $USER
 
 # Vérification finale de l'installation
