@@ -72,7 +72,10 @@ docker compose -f "docker-compose.yml" up -d --build
 # Donnons au conteneur Airflow le droit d'écrire dans le répertoire local Airflow
 mkdir airflow
 sudo chmod 777 airflow
-docker exec -it [ID du conteneur] airflow users reset-password     --username admin     --password [mot-de-passe]
+# Récupérer l'ID du conteneur avec:
+docker ps
+# Puis faire un reset du mot-de-passe
+docker exec -it [ID du conteneur] airflow users reset-password --username admin --password [mot-de-passe]
 
 
 # INSTALLATION DE JUPYTER NOTEBOOK:
