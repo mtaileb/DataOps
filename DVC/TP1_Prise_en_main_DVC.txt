@@ -66,8 +66,8 @@ Pushing
 1 file pushed  
 
 Exemple:
-dvc remote modify myremote account_name 'stockagemehdi123'
-dvc remote modify --local myremote connection_string 'DefaultEndpointsProtocol=https;AccountName=stockagemehdi123;AccountKey=/KPaAvQQXZKalv9TOnzil8snqI0yMmUqyukxCKsKX2Walz4LQpAbGjgk+nmuxXFHLrdoZvqS654sb+AStdmSSBw==;EndpointSuffix=core.windows.net'
+dvc remote modify myremote account_name 'stockagem123'
+dvc remote modify --local myremote connection_string 'DefaultEndpointsProtocol=https;AccountName=stockagem123;AccountKey=/KPaAvQQXZKalv9TOnzil8snqI0yMmUqyukxCKsKX2Walz4LQpAbGjgk+nmuxXFHLrdoZvqS654sb+AStdmSSBw==;EndpointSuffix=core.windows.net'
 dvc remote modify --local myremote sas_token 'sp=racwd&st=2026-09-09T08:56:24Z&se=2026-09-09T17:11:24Z&spr=https&sv=2026-02-06&sr=c&sig=tz%2BoYvne%2FPrrynfMx%2Bs7hihRjHCs0XG9QqJcj%2F9KRBT0%3D'
 dvc push
 
