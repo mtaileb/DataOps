@@ -58,11 +58,18 @@ dvc push
 # Sur Azure:
 dvc remote modify myremote account_name '<nom-de-votre-compte-de-stockage>'
 dvc remote modify --local myremote  connection_string 'DefaultEndpointsProtocol=https;AccountName=<nom-de-votre-compte-de-stockage>;AccountKey=<votre-clé-de-compte-de-stockage>;EndpointSuffix=core.windows.net'
+/!\ Avant d'exécuter la commande suivante, assurez-vous de créer une clé SAS qui permet aussi l'écriture, la création, l'ajout... (cf. menu déroulant dans l'interface Azure)
 dvc remote modify --local myremote sas_token '<clé-d'accès-partagé-de-votre-conteneur>'
 dvc push
 Collecting                                                                            |1.00 [00:00,  243entry/s]
 Pushing
 1 file pushed  
+
+Exemple:
+dvc remote modify myremote account_name 'stockagemehdi123'
+dvc remote modify --local myremote connection_string 'DefaultEndpointsProtocol=https;AccountName=stockagemehdi123;AccountKey=/KPaAvQQXZKalv9TOnzil8snqI0yMmUqyukxCKsKX2Walz4LQpAbGjgk+nmuxXFHLrdoZvqS654sb+AStdmSSBw==;EndpointSuffix=core.windows.net'
+dvc remote modify --local myremote sas_token 'sp=racwd&st=2026-09-09T08:56:24Z&se=2026-09-09T17:11:24Z&spr=https&sv=2026-02-06&sr=c&sig=tz%2BoYvne%2FPrrynfMx%2Bs7hihRjHCs0XG9QqJcj%2F9KRBT0%3D'
+dvc push
 
 GERER PLUSSIEURS VERSIONS DU DATASET:
 - Modifions le jeu de données titanic.csv en local (par exemple en doublant sa taille, en copiant-collant toutes les lignes):
